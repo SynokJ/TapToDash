@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player
 {
 
-    private const float MOVE_SPEED = 5.0f;
+    private float MOVE_SPEED = 5.0f;
     private const float MOVE_JUMP = 3.0f;
     private const float MOVE_ROTATE_ANGLE = 45f;
     private Queue<MoveState> cmds;
@@ -21,6 +21,12 @@ public class Player
 
     public Player()
     {
+        cmds = new Queue<MoveState>();
+    }
+
+    public Player(float speed)
+    {
+        MOVE_SPEED = speed;
         cmds = new Queue<MoveState>();
     }
 

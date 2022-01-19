@@ -10,14 +10,17 @@ public class PlayerController : MonoBehaviour
     private Player player;
     private int score_num = 0;
 
+    public AudioSource loseAudio;
     public TextMeshProUGUI score_text;
     public GameObject gameOverPanel;
     public GameObject gameWonPanel;
+    public Character character;
 
     void Awake()
     {
         player_rb = GetComponent<Rigidbody>();
-        player = new Player();
+        player = new Player(character.speed);
+        gameObject.GetComponent<MeshRenderer>().material = character.material;
     }
 
     void Update()
@@ -70,6 +73,7 @@ public class PlayerController : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
             gameObject.SetActive(false);
+            loseAudio.Play();
         }
         else if (other.tag == "Collectible")
         {
