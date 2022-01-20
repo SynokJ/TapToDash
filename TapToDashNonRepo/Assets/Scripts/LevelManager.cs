@@ -31,12 +31,15 @@ public class LevelManager : MonoBehaviour
 
         int start_level = cur_level;
 
-        firstLevel.changeLevel(start_level);
-        secondLevel.changeLevel(start_level + 1);
+        // generate the first two levels (Current active level objects)
+        firstLevel.initLevel(start_level);
+        secondLevel.initLevel(start_level + 1);
 
+        // initialize two virtual levels to get commands 
         level_01 = firstLevel.getLevel();
         level_02 = secondLevel.getLevel();
 
+        // set player cmds
         player.addCmds(level_01.getLevelCmds());
     }
 
@@ -46,7 +49,9 @@ public class LevelManager : MonoBehaviour
         {
             swapLevels();
             cur_level++;
-            winSound.Play();
+
+            if (!winSound.isPlaying)
+                winSound.Play();
         }
 
         if (pc.getPlayerPos().y < -0.07f && !isLost)
@@ -58,23 +63,36 @@ public class LevelManager : MonoBehaviour
 
     public void swapLevels()
     {
-
-
         // move cur to the next
         if (firstLevel.getObjPos().z < secondLevel.getObjPos().z)
         {
+            // set the next level after the second one to the complited level 
+            //firstLevel.changeLevel(level_02.getLevelIndex());
             firstLevel.changeLevel(level_02.getLevelIndex());
+
             level_01 = firstLevel.getLevel();
             player.addCmds(level_02.getLevelCmds());
-            firstLevel.translateByOffset(secondLevel.getObjPos());
+            //firstLevel.translateByOffset(secondLevel.getObjPos());
+            //firstLevel.moveLevelInPlay(secondLevel.getObjPos());
+            StartCoroutine(redrawLevel(firstLevel, secondLevel));
         }
         else
         {
+            //secondLevel.changeLevel(level_01.getLevelIndex());
             secondLevel.changeLevel(level_01.getLevelIndex());
+
             level_02 = secondLevel.getLevel();
             player.addCmds(level_01.getLevelCmds());
-            secondLevel.translateByOffset(firstLevel.getObjPos());
+
+            StartCoroutine(redrawLevel(secondLevel, firstLevel));
+            //secondLevel.moveLevelInPlay(firstLevel.getObjPos());
         }
+    }
+
+    private IEnumerator redrawLevel(LevelBuilder first, LevelBuilder second)
+    {
+        yield return new WaitForSeconds(1.5f);
+        first.translateByOffset(second.getObjPos());
     }
 
     public float getTheDestCoordinate()
@@ -83,11 +101,5 @@ public class LevelManager : MonoBehaviour
         float next_lvl_pos = secondLevel.getObjPos().z + secondLevel.getLevel().getLevelHeight() / 2;
 
         return (cur_lvl_pos < next_lvl_pos ? cur_lvl_pos : next_lvl_pos);
-    }
-
-    private IEnumerator redrawLevel(LevelBuilder first, LevelBuilder second)
-    {
-        yield return new WaitForSeconds(1.5f);
-        first.translateByOffset(second.getObjPos());
     }
 }

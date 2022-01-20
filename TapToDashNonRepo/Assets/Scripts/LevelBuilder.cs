@@ -15,15 +15,18 @@ public class LevelBuilder : MonoBehaviour
     private int levelIndex;
     private float right_arrow_angle = 0;
     private float left_arrow_angle = 0;
+    private float CHANGE_DURATION = 1.5f;
 
     private void Awake()
     {
+        level = new Level(levelIndex);
         drawMap();
     }
 
     public void drawMap()
     {
-        level = new Level(levelIndex);
+
+        //level = new Level(levelIndex);
 
         float y_offset = level.getLevelHeight() / 2;
         float x_offset = level.getLevelWidth() / 2 - 1;
@@ -225,10 +228,46 @@ public class LevelBuilder : MonoBehaviour
         transform.position = prevLevelPos + new Vector3(0, 0, pos_z);
     }
 
+    public void moveLevelInPlay(Vector3 prevLevelPos)
+    {
+        StartCoroutine(moveTheLevel(prevLevelPos));
+    }
+
+    private IEnumerator moveTheLevel(Vector3 prevLevelPos)
+    {
+        yield return new WaitForSeconds(CHANGE_DURATION);
+
+        float pos_z = level.getCmdsContainer().Count / 2 * 2 + start_platform.transform.localScale.z;
+        transform.position = prevLevelPos + new Vector3(0, 0, pos_z);
+    }
+
+    public void initLevel(int prevLevelIndex)
+    {
+
+        levelIndex = prevLevelIndex + 1;
+        level = new Level(levelIndex);
+
+        for (int i = 0; i < transform.childCount; ++i)
+            if (transform.GetChild(i).gameObject.tag != "Dead")
+                Destroy(transform.GetChild(i).gameObject);
+
+        drawMap();
+    }
+
+
+    // cur version
     public void changeLevel(int prevLevelIndex)
     {
 
         levelIndex = prevLevelIndex + 1;
+        level = new Level(levelIndex);
+
+        StartCoroutine(LevelChange());
+    }
+
+    private IEnumerator LevelChange()
+    {
+        yield return new WaitForSeconds(CHANGE_DURATION);
 
         for (int i = 0; i < transform.childCount; ++i)
             if (transform.GetChild(i).gameObject.tag != "Dead")
