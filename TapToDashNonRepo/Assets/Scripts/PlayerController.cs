@@ -14,11 +14,15 @@ public class PlayerController : MonoBehaviour
     public TextMeshProUGUI score_text;
     public GameObject gameOverPanel;
     public GameObject gameWonPanel;
-    public Character character;
+    public List<Character> character_box;
+
+    private Character character;
 
     void Awake()
     {
         player_rb = GetComponent<Rigidbody>();
+        
+        setChar();
         player = new Player(character.speed);
         gameObject.GetComponent<MeshRenderer>().material = character.material;
     }
@@ -28,7 +32,7 @@ public class PlayerController : MonoBehaviour
         // move 
         transform.Translate(transform.forward * player.speed() * Time.deltaTime);
 
-        if(player.isEnded())
+        if (player.isEnded())
         {
             gameWonPanel.SetActive(true);
             gameObject.SetActive(false);
@@ -91,5 +95,17 @@ public class PlayerController : MonoBehaviour
     public Vector3 getPlayerPos()
     {
         return this.gameObject.transform.position;
+    }
+
+    public void setChar()
+    {
+        string skin_name = PlayerPrefs.GetString("SkinName", "def");
+        
+        foreach(Character ch in character_box)
+            if (ch.name == skin_name)
+                character = ch;
+
+        if (character == null)
+            character = character_box[0];
     }
 }

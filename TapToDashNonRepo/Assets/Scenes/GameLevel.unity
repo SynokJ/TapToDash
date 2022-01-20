@@ -1003,7 +1003,10 @@ MonoBehaviour:
   score_text: {fileID: 347676942}
   gameOverPanel: {fileID: 1482640783}
   gameWonPanel: {fileID: 101533826}
-  character: {fileID: 11400000, guid: dbc287c7b8e3107448a358ec1458fdba, type: 2}
+  character_box:
+  - {fileID: 11400000, guid: 98fc652eb561f4641989da4f05c41703, type: 2}
+  - {fileID: 11400000, guid: 893c8f76d0494bf41acc34b857d6c1bf, type: 2}
+  - {fileID: 11400000, guid: dbc287c7b8e3107448a358ec1458fdba, type: 2}
 --- !u!54 &550221169
 Rigidbody:
   m_ObjectHideFlags: 0
