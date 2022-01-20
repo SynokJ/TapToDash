@@ -24,7 +24,6 @@ public class LevelManager : MonoBehaviour
         int start_level = cur_level;
 
         start_level = 3;
-        Debug.Log("Level:\t" + start_level);
 
         // set level 
         //firstLevel.getLevel().setIndex(start_level);

@@ -21,7 +21,7 @@ public class PlayerController : MonoBehaviour
     void Awake()
     {
         player_rb = GetComponent<Rigidbody>();
-        
+
         setChar();
         player = new Player(character.speed);
         gameObject.GetComponent<MeshRenderer>().material = character.material;
@@ -69,6 +69,8 @@ public class PlayerController : MonoBehaviour
                 player_rb.velocity = Vector3.up * player.jump();
                 break;
         }
+
+        player.checkCurCmds();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -100,8 +102,8 @@ public class PlayerController : MonoBehaviour
     public void setChar()
     {
         string skin_name = PlayerPrefs.GetString("SkinName", "def");
-        
-        foreach(Character ch in character_box)
+
+        foreach (Character ch in character_box)
             if (ch.name == skin_name)
                 character = ch;
 
