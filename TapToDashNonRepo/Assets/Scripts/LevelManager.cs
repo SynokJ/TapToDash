@@ -10,8 +10,6 @@ public class LevelManager : MonoBehaviour
     public AudioSource winSound;
 
     private Player player;
-    private Level level_01;
-    private Level level_02;
 
     private static int cur_level;
     private bool isLost = false;
@@ -20,27 +18,25 @@ public class LevelManager : MonoBehaviour
     {
         // move next aside cur level
         secondLevel.translateByOffset(firstLevel.getObjPos());
-
         player = pc.getPlayer();
 
-        int temp = PlayerPrefs.GetInt("CurLevel", -1);
-        if (temp == -1)
-            cur_level = 0;
-        else if (cur_level == 0 && temp != -1)
-            cur_level = temp;
-
+        InitCurLevel();
         int start_level = cur_level;
 
-        // generate the first two levels (Current active level objects)
-        firstLevel.initLevel(start_level);
-        secondLevel.initLevel(start_level + 1);
+        start_level = 3;
+        Debug.Log("Level:\t" + start_level);
 
-        // initialize two virtual levels to get commands 
-        level_01 = firstLevel.getLevel();
-        level_02 = secondLevel.getLevel();
+        // set level 
+        //firstLevel.getLevel().setIndex(start_level);
+        //secondLevel.getLevel().setIndex(start_level + 1);
+        //Debug.Log("Map Level:\t" + firstLevel.getLevel().getLevelIndex());
+
+        // generate the first two levels (Current active level objects)
+        firstLevel.initLevel();
+        secondLevel.initLevel();
 
         // set player cmds
-        player.addCmds(level_01.getLevelCmds());
+        //player.addCmds(firstLevel.getLevel().getLevelCmds());
     }
 
     private void Update()
@@ -54,6 +50,8 @@ public class LevelManager : MonoBehaviour
                 winSound.Play();
         }
 
+
+        // write the cur best level 
         if (pc.getPlayerPos().y < -0.07f && !isLost)
         {
             PlayerPrefs.SetInt("CurLevel", cur_level);
@@ -64,29 +62,25 @@ public class LevelManager : MonoBehaviour
     public void swapLevels()
     {
         // move cur to the next
-        if (firstLevel.getObjPos().z < secondLevel.getObjPos().z)
-        {
-            // set the next level after the second one to the complited level 
-            //firstLevel.changeLevel(level_02.getLevelIndex());
-            firstLevel.changeLevel(level_02.getLevelIndex());
+        //if (firstLevel.getObjPos().z < secondLevel.getObjPos().z)
+        //{
+        //    // set the next level after the second one to the complited level 
+        //    firstLevel.ChangeLevel(level_02.getLevelIndex());
 
-            level_01 = firstLevel.getLevel();
-            player.addCmds(level_02.getLevelCmds());
-            //firstLevel.translateByOffset(secondLevel.getObjPos());
-            //firstLevel.moveLevelInPlay(secondLevel.getObjPos());
-            StartCoroutine(redrawLevel(firstLevel, secondLevel));
-        }
-        else
-        {
-            //secondLevel.changeLevel(level_01.getLevelIndex());
-            secondLevel.changeLevel(level_01.getLevelIndex());
+        //    level_01 = firstLevel.getLevel();
+        //    player.addCmds(level_02.getLevelCmds());
+        //    //firstLevel.translateByOffset(secondLevel.getObjPos());
+        //    StartCoroutine(redrawLevel(firstLevel, secondLevel));
+        //}
+        //else
+        //{
+        //    secondLevel.ChangeLevel(level_01.getLevelIndex());
 
-            level_02 = secondLevel.getLevel();
-            player.addCmds(level_01.getLevelCmds());
+        //    level_02 = secondLevel.getLevel();
+        //    player.addCmds(level_01.getLevelCmds());
 
-            StartCoroutine(redrawLevel(secondLevel, firstLevel));
-            //secondLevel.moveLevelInPlay(firstLevel.getObjPos());
-        }
+        //    StartCoroutine(redrawLevel(secondLevel, firstLevel));
+        //}
     }
 
     private IEnumerator redrawLevel(LevelBuilder first, LevelBuilder second)
@@ -95,10 +89,19 @@ public class LevelManager : MonoBehaviour
         first.translateByOffset(second.getObjPos());
     }
 
+    private void InitCurLevel()
+    {
+        int temp = PlayerPrefs.GetInt("CurLevel", -1);
+        if (temp == -1)
+            cur_level = 0;
+        else if (cur_level == 0 && temp != -1)
+            cur_level = temp;
+    }
+
     public float getTheDestCoordinate()
     {
-        float cur_lvl_pos = firstLevel.getObjPos().z + firstLevel.getLevel().getLevelHeight() / 2;
-        float next_lvl_pos = secondLevel.getObjPos().z + secondLevel.getLevel().getLevelHeight() / 2;
+        float cur_lvl_pos = firstLevel.getObjPos().z + firstLevel.getLevel().getHeight() / 2;
+        float next_lvl_pos = secondLevel.getObjPos().z + secondLevel.getLevel().getHeight() / 2;
 
         return (cur_lvl_pos < next_lvl_pos ? cur_lvl_pos : next_lvl_pos);
     }

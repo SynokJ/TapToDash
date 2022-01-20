@@ -10,30 +10,27 @@ public class LevelBuilder : MonoBehaviour
     public GameObject collectible;
     public GameObject arrow;
 
-    //private int levelIndex = 1;
     private Level level;
-    private int levelIndex;
+    private int levelIndex = 0;
     private float right_arrow_angle = 0;
     private float left_arrow_angle = 0;
-    private float CHANGE_DURATION = 1.5f;
+    //private float CHANGE_DURATION = 1.5f;
 
     private void Awake()
     {
         level = new Level(levelIndex);
-        drawMap();
+        initLevel();
     }
 
+    #region Draw Map In Scene
     public void drawMap()
     {
-
-        //level = new Level(levelIndex);
-
-        float y_offset = level.getLevelHeight() / 2;
-        float x_offset = level.getLevelWidth() / 2 - 1;
+        float y_offset = level.getHeight() / 2;
+        float x_offset = level.getWidth() / 2 - 1;
 
         // draw playground platforms
-        for (int r = 0; r < level.getLevelHeight(); ++r)
-            for (int c = 0; c < level.getLevelWidth(); ++c)
+        for (int r = 0; r < level.getHeight(); ++r)
+            for (int c = 0; c < level.getWidth(); ++c)
             {
                 if (level.getCmdsContainer()[r][c] == '#')
                 {
@@ -80,7 +77,6 @@ public class LevelBuilder : MonoBehaviour
         if (transform.position.z == 0)
             transform.Translate(new Vector3(0, 0, y_offset));
     }
-
     private bool canPasteArrowRight(int row, int col)
     {
         if (row == 0)
@@ -94,7 +90,7 @@ public class LevelBuilder : MonoBehaviour
                     return true;
                 }
             }
-            else if (col != level.getLevelWidth() - 1)
+            else if (col != level.getWidth() - 1)
             {
                 if (level.getCmdsContainer()[row][col + 1] == '#')
                 {
@@ -103,7 +99,7 @@ public class LevelBuilder : MonoBehaviour
                 }
             }
         }
-        else if (row == level.getLevelHeight() - 1)
+        else if (row == level.getHeight() - 1)
         {
             if (col == 0)
             {
@@ -113,7 +109,7 @@ public class LevelBuilder : MonoBehaviour
                     return true;
                 }
             }
-            else if (col != level.getLevelWidth() - 1)
+            else if (col != level.getWidth() - 1)
             {
                 if (level.getCmdsContainer()[row][col + 1] == '#')
                 {
@@ -137,7 +133,7 @@ public class LevelBuilder : MonoBehaviour
                     return true;
                 }
             }
-            else if (col != level.getLevelWidth() - 1)
+            else if (col != level.getWidth() - 1)
             {
                 if (level.getCmdsContainer()[row + 1][col] == '#' && level.getCmdsContainer()[row][col + 1] == '#')
                 {
@@ -154,13 +150,12 @@ public class LevelBuilder : MonoBehaviour
 
         return false;
     }
-
     private bool canPasteArrowLeft(int row, int col)
     {
         if (row == 0)
         {
 
-            if (col == level.getLevelWidth() - 1)
+            if (col == level.getWidth() - 1)
             {
                 if (level.getCmdsContainer()[row][col - 1] == '#' && level.getCmdsContainer()[row + 1][col] == '#')
                 {
@@ -169,7 +164,7 @@ public class LevelBuilder : MonoBehaviour
                 }
             }
         }
-        else if (row == level.getLevelHeight() - 1)
+        else if (row == level.getHeight() - 1)
         {
             if (col != 0)
             {
@@ -179,7 +174,7 @@ public class LevelBuilder : MonoBehaviour
                     return true;
                 }
             }
-            else if (col == level.getLevelWidth() - 1)
+            else if (col == level.getWidth() - 1)
             {
                 if (level.getCmdsContainer()[row][col - 1] == '#' && level.getCmdsContainer()[row - 1][col] == '#')
                 {
@@ -190,7 +185,7 @@ public class LevelBuilder : MonoBehaviour
         }
         else
         {
-            if (col == level.getLevelWidth() - 1)
+            if (col == level.getWidth() - 1)
             {
                 if (level.getCmdsContainer()[row + 1][col] == '#' && level.getCmdsContainer()[row][col - 1] == '#')
                 {
@@ -220,66 +215,38 @@ public class LevelBuilder : MonoBehaviour
 
         return false;
     }
+    #endregion
 
+    #region Translate Scene
     // y_offset * 2 + start_platform.transform.localScale.z/2       ->      offset between levels
     public void translateByOffset(Vector3 prevLevelPos)
     {
-        float pos_z = level.getCmdsContainer().Count / 2 * 2 + start_platform.transform.localScale.z;
+        float pos_z = level.getCmdsCount() / 2 * 2 + start_platform.transform.localScale.z;
         transform.position = prevLevelPos + new Vector3(0, 0, pos_z);
     }
+    #endregion
 
-    public void moveLevelInPlay(Vector3 prevLevelPos)
+    public void initLevel()
     {
-        StartCoroutine(moveTheLevel(prevLevelPos));
-    }
-
-    private IEnumerator moveTheLevel(Vector3 prevLevelPos)
-    {
-        yield return new WaitForSeconds(CHANGE_DURATION);
-
-        float pos_z = level.getCmdsContainer().Count / 2 * 2 + start_platform.transform.localScale.z;
-        transform.position = prevLevelPos + new Vector3(0, 0, pos_z);
-    }
-
-    public void initLevel(int prevLevelIndex)
-    {
-
-        levelIndex = prevLevelIndex + 1;
-        level = new Level(levelIndex);
-
-        for (int i = 0; i < transform.childCount; ++i)
-            if (transform.GetChild(i).gameObject.tag != "Dead")
-                Destroy(transform.GetChild(i).gameObject);
-
+        cleanLevel();
+        Debug.Log("Initialization Complited! Level: " + level.getIndex());
         drawMap();
     }
 
-
-    // cur version
-    public void changeLevel(int prevLevelIndex)
+    // destroy all child objects of current level object
+    private void cleanLevel()
     {
-
-        levelIndex = prevLevelIndex + 1;
-        level = new Level(levelIndex);
-
-        StartCoroutine(LevelChange());
-    }
-
-    private IEnumerator LevelChange()
-    {
-        yield return new WaitForSeconds(CHANGE_DURATION);
-
         for (int i = 0; i < transform.childCount; ++i)
             if (transform.GetChild(i).gameObject.tag != "Dead")
                 Destroy(transform.GetChild(i).gameObject);
-
-        drawMap();
     }
+
 
     public Level getLevel()
     {
         return level;
     }
+
 
     public Vector3 getObjPos()
     {

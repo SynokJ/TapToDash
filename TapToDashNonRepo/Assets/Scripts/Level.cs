@@ -11,7 +11,7 @@ public class Level
     private int index = 0;
 
     public Level()
-    {
+    {   
         TextAsset level_map_data = (TextAsset)Resources.Load("Maps/Map-01/Level-00");
 
         if (level_map_data == null)
@@ -70,28 +70,33 @@ public class Level
         return cmds;
     }
 
-    public string[] getLevelCmds()
-    {
-        return mapCmds;
-    }
-
-    public float getLevelHeight()
+    public int getCmdsCount()
     {
         return cmds.Count;
     }
 
-    public float getLevelWidth()
+    public string[] getCmdsString()
+    {
+        return mapCmds;
+    }
+
+    public float getHeight()
+    {
+        return cmds.Count;
+    }
+
+    public float getWidth()
     {
         return cmds[0].Length;
     }
 
-    public int getLevelIndex()
+    public int getIndex()
     {
         return index;
     }
 
-    public void setLevelIndex(int other)
+    public void setIndex(int other)
     {
-        index = other + 1;
+        index = other;
     }
 }
