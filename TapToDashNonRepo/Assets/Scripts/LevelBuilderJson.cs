@@ -27,7 +27,9 @@ public class LevelBuilderJson : MonoBehaviour
 
         if (levelIndex == levelLoader.curMap.level.Length)
             levelIndex = 0;
-        
+
+        Debug.Log(levelIndex);
+
         level = levelLoader.curMap.level[levelIndex];
 
         cleanLevel();
@@ -41,13 +43,8 @@ public class LevelBuilderJson : MonoBehaviour
 
         // draw playground platforms
         drawMapPlatforms(x_offset, y_offset);
-
-        float pos_x = transform.position.x;
-        float pos_y = transform.position.y;
-        float pos_z = transform.position.z - y_offset - start_platform.transform.localScale.z / 2;
-
-        Instantiate(start_platform, new Vector3(pos_x, pos_y, pos_z), Quaternion.identity).gameObject.transform.SetParent(this.transform);
-
+        DrawStartPlatform(y_offset);
+        
         // first level translate  
         if (transform.position.z == 0)
             transform.Translate(new Vector3(0, 0, y_offset));
@@ -88,6 +85,14 @@ public class LevelBuilderJson : MonoBehaviour
                     }
                 }
             }
+    }
+    private void DrawStartPlatform(float y_offset)
+    {
+        float pos_x = transform.position.x;
+        float pos_y = transform.position.y;
+        float pos_z = transform.position.z - y_offset - start_platform.transform.localScale.z / 2;
+
+        Instantiate(start_platform, new Vector3(pos_x, pos_y, pos_z), Quaternion.identity).gameObject.transform.SetParent(this.transform);
     }
 
     #region So Scarry Checkers

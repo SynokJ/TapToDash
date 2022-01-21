@@ -14,9 +14,16 @@ public class LevelManagerJson : MonoBehaviour
     private static int cur_level;
     private bool isMoved;
 
+    private float prev_pos_first;
+    private float prev_pos_second;
+
+    private float cur_pos_first;
+    private float cur_pos_second;
+
     void Start()
     {
-        cur_level = 1;
+        InitCurLevel();
+
         level_first.setLevel(cur_level);
         level_second.setLevel(cur_level);
 
@@ -31,14 +38,8 @@ public class LevelManagerJson : MonoBehaviour
     {
         if (pc.getPlayerPos().z > getTheDestCoordinate() && !isMoved)
         {
-            Debug.Log("Level Complited");
-
             if (cur_level % 2 == 0)
             {
-                Debug.Log("Move Second and Init First");
-                //level_second.translateByOffset(level_first.gameObject.transform.position);
-                //StartCoroutine(moveFirstLevel());
-
                 StartCoroutine(level_second.translateByOffsetCour(level_first.gameObject.transform.position));
 
                 level_first.setLevel(cur_level + 1);
@@ -46,10 +47,6 @@ public class LevelManagerJson : MonoBehaviour
             }
             else
             {
-                Debug.Log("Move First and Init Second");
-                //level_first.translateByOffset(level_second.gameObject.transform.position);
-                //StartCoroutine(moveSecondLevel());
-
                 StartCoroutine(level_first.translateByOffsetCour(level_second.gameObject.transform.position));
 
                 level_second.setLevel(cur_level + 1);
@@ -58,20 +55,23 @@ public class LevelManagerJson : MonoBehaviour
 
             cur_level++;
             player.checkCurCmds();
+
+            prev_pos_first = level_first.gameObject.transform.position.z;
+            prev_pos_second = level_second.gameObject.transform.position.z;
+
             isMoved = true;
         }
+
+        cur_pos_first = level_first.gameObject.transform.position.z;
+        cur_pos_second = level_second.gameObject.transform.position.z;
+
+        if (IsDifferent(cur_pos_first, prev_pos_first) || IsDifferent(cur_pos_second, prev_pos_second))
+            isMoved = false;
     }
 
-    IEnumerator moveFirstLevel()
+    private bool IsDifferent(float pos_01, float pos_02)
     {
-        yield return new WaitForSeconds(0);
-        level_first.translateByOffsetCour(level_second.gameObject.transform.position);
-    }
-
-    IEnumerator moveSecondLevel()
-    {
-        yield return new WaitForSeconds(0);
-        level_second.translateByOffsetCour(level_first.gameObject.transform.position);
+        return pos_01 != pos_02;
     }
 
     public float getTheDestCoordinate()
@@ -80,5 +80,19 @@ public class LevelManagerJson : MonoBehaviour
         float next_lvl_pos = level_second.gameObject.transform.position.z + level_second.getLevel().getHeight() / 2;
 
         return (cur_lvl_pos < next_lvl_pos ? cur_lvl_pos : next_lvl_pos);
+    }
+
+    private void InitCurLevel()
+    {
+        int temp = PlayerPrefs.GetInt("CurLevel", -1);
+        if (temp == -1)
+            cur_level = 1;
+        else if (cur_level == 0 && temp != -1)
+            cur_level = temp;
+    }
+
+    public int GetCurLevel()
+    {
+        return cur_level;
     }
 }

@@ -9,14 +9,15 @@ public class PlayerController : MonoBehaviour
     private Rigidbody player_rb;
     private Player player;
     private int score_num = 0;
+    private Character character;
 
+    public LevelManagerJson levelManager;
     public AudioSource loseAudio;
     public TextMeshProUGUI score_text;
     public GameObject gameOverPanel;
     public GameObject gameWonPanel;
     public List<Character> character_box;
 
-    private Character character;
 
     void Awake()
     {
@@ -79,6 +80,7 @@ public class PlayerController : MonoBehaviour
         {
             gameOverPanel.SetActive(true);
             gameObject.SetActive(false);
+            PlayerPrefs.SetInt("CurLevel", levelManager.GetCurLevel());
             loseAudio.Play();
         }
         else if (other.tag == "Collectible")
