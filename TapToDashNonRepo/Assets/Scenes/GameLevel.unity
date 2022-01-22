@@ -1421,6 +1421,7 @@ MonoBehaviour:
   level_second: {fileID: 1085638038}
   pc: {fileID: 550221168}
   levelLoader: {fileID: 898215441}
+  levelComplitedSound: {fileID: 1485944825}
 --- !u!1 &1353803238
 GameObject:
   m_ObjectHideFlags: 0

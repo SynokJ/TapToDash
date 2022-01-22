@@ -70,8 +70,6 @@ public class PlayerController : MonoBehaviour
                 player_rb.velocity = Vector3.up * player.jump();
                 break;
         }
-
-        player.checkCurCmds();
     }
 
     private void OnTriggerEnter(Collider other)

@@ -28,16 +28,12 @@ public class LevelBuilderJson : MonoBehaviour
         if (levelIndex == levelLoader.curMap.level.Length)
             levelIndex = 0;
 
-        Debug.Log(levelIndex);
-
         level = levelLoader.curMap.level[levelIndex];
-
-        cleanLevel();
-        drawMap();
     }
 
     public void drawMap()
     {
+        cleanLevel();
         float y_offset = level.getHeight() / 2;
         float x_offset = level.getWidth() / 2;
 
@@ -244,7 +240,8 @@ public class LevelBuilderJson : MonoBehaviour
 
     public IEnumerator translateByOffsetCour(Vector3 prevLevelPos)
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);
+     
         float pos_z = level.getHeight() / 2 * 2 + start_platform.transform.localScale.z;
         transform.position = prevLevelPos + new Vector3(0, 0, pos_z);
     }

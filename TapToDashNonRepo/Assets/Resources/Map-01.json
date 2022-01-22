@@ -247,7 +247,7 @@
 		{
 			"name" : "level-09",
 			"style" : "green",
-			"cmds" : ["left","right","right","left","left","right","right","left","right","left","left","right","up","left","right","up","right","left"],
+			"cmds" : ["left","right","right","left","left","right","right","up","left","right","left","left","right","up","left","right","up","right","left"],
 			"map" : [
 					".....#.....",
 					"..####.....",

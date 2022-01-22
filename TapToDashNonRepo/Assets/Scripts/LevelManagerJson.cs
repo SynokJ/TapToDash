@@ -9,69 +9,69 @@ public class LevelManagerJson : MonoBehaviour
     public LevelBuilderJson level_second;
     public PlayerController pc;
     public LevelLoader levelLoader;
+    public AudioSource levelComplitedSound;
 
     private Player player;
     private static int cur_level;
-    private bool isMoved;
-
-    private float prev_pos_first;
-    private float prev_pos_second;
-
-    private float cur_pos_first;
-    private float cur_pos_second;
+    private bool firstNext = false;
 
     void Start()
     {
         InitCurLevel();
 
-        level_first.setLevel(cur_level);
-        level_second.setLevel(cur_level);
-
-        level_second.translateByOffset(level_first.gameObject.transform.position);
-
         player = pc.getPlayer();
         player.addCmds(level_first.getLevel().cmds);
-        player.checkCurCmds();
     }
 
     void Update()
     {
-        if (pc.getPlayerPos().z > getTheDestCoordinate() && !isMoved)
+        if (pc.getPlayerPos().z > getTheDestCoordinate())
         {
-            if (cur_level % 2 == 0)
+            if (IsFirstForward() && firstNext)
             {
-                StartCoroutine(level_second.translateByOffsetCour(level_first.gameObject.transform.position));
-
-                level_first.setLevel(cur_level + 1);
                 player.addCmds(level_first.getLevel().cmds);
+                cur_level++;
+                firstNext = false;
+                
+                levelComplitedSound.Play();
             }
-            else
+            else if (!IsFirstForward() && !firstNext)
             {
-                StartCoroutine(level_first.translateByOffsetCour(level_second.gameObject.transform.position));
-
-                level_second.setLevel(cur_level + 1);
                 player.addCmds(level_second.getLevel().cmds);
+                cur_level++;
+                firstNext = true;
+
+                levelComplitedSound.Play();
             }
-
-            cur_level++;
-            player.checkCurCmds();
-
-            prev_pos_first = level_first.gameObject.transform.position.z;
-            prev_pos_second = level_second.gameObject.transform.position.z;
-
-            isMoved = true;
         }
 
-        cur_pos_first = level_first.gameObject.transform.position.z;
-        cur_pos_second = level_second.gameObject.transform.position.z;
-
-        if (IsDifferent(cur_pos_first, prev_pos_first) || IsDifferent(cur_pos_second, prev_pos_second))
-            isMoved = false;
+        SwapLevels();
     }
 
-    private bool IsDifferent(float pos_01, float pos_02)
+    public bool IsFirstForward()
     {
-        return pos_01 != pos_02;
+        return level_first.gameObject.transform.position.z > level_second.transform.position.z;
+    }
+
+    public void SwapLevels()
+    {
+
+        float player_pos = pc.gameObject.transform.position.z;
+        float first_pos = level_first.transform.position.z + level_first.getLevel().getHeight() / 2;
+        float second_pos = level_second.transform.position.z + level_second.getLevel().getHeight() / 2;
+
+        if (player_pos > first_pos + level_second.getLevel().getHeight() / 2)
+        {
+            level_first.setLevel(cur_level + 1);
+            level_first.drawMap();
+            level_first.translateByOffset(level_second.gameObject.transform.position);
+        }
+        else if (player_pos > second_pos + level_second.getLevel().getHeight() / 2)
+        {
+            level_second.setLevel(cur_level + 1);
+            level_second.drawMap();
+            level_second.translateByOffset(level_first.gameObject.transform.position);
+        }
     }
 
     public float getTheDestCoordinate()
@@ -89,6 +89,14 @@ public class LevelManagerJson : MonoBehaviour
             cur_level = 1;
         else if (cur_level == 0 && temp != -1)
             cur_level = temp;
+
+        level_first.setLevel(cur_level);
+        level_second.setLevel(cur_level + 1);
+
+        level_first.drawMap();
+        level_second.drawMap();
+
+        level_second.translateByOffset(level_first.gameObject.transform.position);
     }
 
     public int GetCurLevel()
