@@ -52,8 +52,6 @@ public class Player
                     isLast = true;
                     break;
             }
-
-        checkCurCmds();
     }
 
     public void checkCurCmds()

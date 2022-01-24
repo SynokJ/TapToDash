@@ -10,6 +10,7 @@ public class LevelManagerJson : MonoBehaviour
     public PlayerController pc;
     public LevelLoader levelLoader;
     public AudioSource levelComplitedSound;
+    public BackgroundController bc;
 
     private Player player;
     private static int cur_level;
@@ -30,19 +31,22 @@ public class LevelManagerJson : MonoBehaviour
             if (IsFirstForward() && firstNext)
             {
                 player.addCmds(level_first.getLevel().cmds);
+                bc.ChangeMapStyle(cur_level);
                 cur_level++;
                 firstNext = false;
-                
+
                 levelComplitedSound.Play();
             }
             else if (!IsFirstForward() && !firstNext)
             {
                 player.addCmds(level_second.getLevel().cmds);
+                bc.ChangeMapStyle(cur_level);
                 cur_level++;
                 firstNext = true;
 
                 levelComplitedSound.Play();
             }
+
         }
 
         SwapLevels();
@@ -101,6 +105,7 @@ public class LevelManagerJson : MonoBehaviour
 
     public int GetCurLevel()
     {
+        InitCurLevel();
         return cur_level;
     }
 }
