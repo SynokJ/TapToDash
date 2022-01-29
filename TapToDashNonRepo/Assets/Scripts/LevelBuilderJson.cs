@@ -19,10 +19,10 @@ public class LevelBuilderJson : MonoBehaviour
     void Start()
     {
         level = levelLoader.curMap.level[1];
-        drawMap();
+        CreateLevelOnPlayground();
     }
 
-    public void setLevel(int levelIndex)
+    public void SetLevelObject(int levelIndex)
     {
 
         if (levelIndex == levelLoader.curMap.level.Length)
@@ -31,27 +31,27 @@ public class LevelBuilderJson : MonoBehaviour
         level = levelLoader.curMap.level[levelIndex];
     }
 
-    public void drawMap()
+    public void CreateLevelOnPlayground()
     {
-        cleanLevel();
-        float y_offset = level.getHeight() / 2;
-        float x_offset = level.getWidth() / 2;
+        DestroyLevelComponents();
+        float y_offset = level.GetHeight() / 2;
+        float x_offset = level.GetWidth() / 2;
 
         // draw playground platforms
-        drawMapPlatforms(x_offset, y_offset);
-        DrawStartPlatform(y_offset);
+        CreateLevelComponentsOnPlayground(x_offset, y_offset);
+        DrawStartLevelPlatform(y_offset);
         
         // first level translate  
         if (transform.position.z == 0)
             transform.Translate(new Vector3(0, 0, y_offset));
     }
 
-    private void drawMapPlatforms(float x_offset, float y_offset)
+    private void CreateLevelComponentsOnPlayground(float x_offset, float y_offset)
     {
-        for (int r = 0; r < level.getHeight(); ++r)
-            for (int c = 0; c < level.getWidth(); ++c)
+        for (int r = 0; r < level.GetHeight(); ++r)
+            for (int c = 0; c < level.GetWidth(); ++c)
             {
-                if (level.getMap()[r][c] == '#')
+                if (level.GetMap()[r][c] == '#')
                 {
                     Vector3 block_pos = cur_platform.transform.position;
                     float temp_posX = (block_pos.x + 1) * c - x_offset;
@@ -67,13 +67,13 @@ public class LevelBuilderJson : MonoBehaviour
                     new_block.transform.SetParent(this.transform);
                     new_collectible.transform.SetParent(new_block.transform);
 
-                    if (canPasteArrowRight(r, c))
+                    if (CanSetRightArrow(r, c))
                     {
                         GameObject new_arrow = Instantiate(arrow, new_block.transform.position + new Vector3(0, 0.11f, 0), Quaternion.Euler(90, 0, right_arrow_angle));
                         new_arrow.transform.SetParent(new_block.transform);
                         new_collectible.SetActive(false);
                     }
-                    else if (canPasteArrowLeft(r, c))
+                    else if (CanSetLeftArrow(r, c))
                     {
                         GameObject new_arrow = Instantiate(arrow, new_block.transform.position + new Vector3(0, 0.11f, 0), Quaternion.Euler(90, 0, left_arrow_angle));
                         new_arrow.transform.SetParent(new_block.transform);
@@ -82,7 +82,7 @@ public class LevelBuilderJson : MonoBehaviour
                 }
             }
     }
-    private void DrawStartPlatform(float y_offset)
+    private void DrawStartLevelPlatform(float y_offset)
     {
         float pos_x = transform.position.x;
         float pos_y = transform.position.y;
@@ -92,41 +92,41 @@ public class LevelBuilderJson : MonoBehaviour
     }
 
     #region So Scarry Checkers
-    private bool canPasteArrowRight(int row, int col)
+    private bool CanSetRightArrow(int row, int col)
     {
         if (row == 0)
         {
 
             if (col == 0)
             {
-                if (level.getMap()[row][col + 1] == '#' && level.getMap()[row + 1][col] == '#')
+                if (level.GetMap()[row][col + 1] == '#' && level.GetMap()[row + 1][col] == '#')
                 {
                     right_arrow_angle = 0;
                     return true;
                 }
             }
-            else if (col != level.getWidth() - 1)
+            else if (col != level.GetWidth() - 1)
             {
-                if (level.getMap()[row][col + 1] == '#')
+                if (level.GetMap()[row][col + 1] == '#')
                 {
                     right_arrow_angle = -90;
                     return true;
                 }
             }
         }
-        else if (row == level.getHeight() - 1)
+        else if (row == level.GetHeight() - 1)
         {
             if (col == 0)
             {
-                if (level.getMap()[row - 1][col] == '#' && level.getMap()[row][col + 1] == '#')
+                if (level.GetMap()[row - 1][col] == '#' && level.GetMap()[row][col + 1] == '#')
                 {
                     right_arrow_angle = -90;
                     return true;
                 }
             }
-            else if (col != level.getWidth() - 1)
+            else if (col != level.GetWidth() - 1)
             {
-                if (level.getMap()[row][col + 1] == '#')
+                if (level.GetMap()[row][col + 1] == '#')
                 {
                     right_arrow_angle = 0;
                     return true;
@@ -137,25 +137,25 @@ public class LevelBuilderJson : MonoBehaviour
         {
             if (col == 0)
             {
-                if (level.getMap()[row + 1][col] == '#' && level.getMap()[row][col + 1] == '#')
+                if (level.GetMap()[row + 1][col] == '#' && level.GetMap()[row][col + 1] == '#')
                 {
                     right_arrow_angle = 0;
                     return true;
                 }
-                else if (level.getMap()[row - 1][col] == '#' && level.getMap()[row][col + 1] == '#')
+                else if (level.GetMap()[row - 1][col] == '#' && level.GetMap()[row][col + 1] == '#')
                 {
                     right_arrow_angle = -90;
                     return true;
                 }
             }
-            else if (col != level.getWidth() - 1)
+            else if (col != level.GetWidth() - 1)
             {
-                if (level.getMap()[row + 1][col] == '#' && level.getMap()[row][col + 1] == '#')
+                if (level.GetMap()[row + 1][col] == '#' && level.GetMap()[row][col + 1] == '#')
                 {
                     right_arrow_angle = 0;
                     return true;
                 }
-                else if (level.getMap()[row - 1][col] == '#' && level.getMap()[row][col + 1] == '#')
+                else if (level.GetMap()[row - 1][col] == '#' && level.GetMap()[row][col + 1] == '#')
                 {
                     right_arrow_angle = -90;
                     return true;
@@ -165,33 +165,33 @@ public class LevelBuilderJson : MonoBehaviour
 
         return false;
     }
-    private bool canPasteArrowLeft(int row, int col)
+    private bool CanSetLeftArrow(int row, int col)
     {
         if (row == 0)
         {
 
-            if (col == level.getWidth() - 1)
+            if (col == level.GetWidth() - 1)
             {
-                if (level.getMap()[row][col - 1] == '#' && level.getMap()[row + 1][col] == '#')
+                if (level.GetMap()[row][col - 1] == '#' && level.GetMap()[row + 1][col] == '#')
                 {
                     left_arrow_angle = 90;
                     return true;
                 }
             }
         }
-        else if (row == level.getHeight() - 1)
+        else if (row == level.GetHeight() - 1)
         {
             if (col != 0)
             {
-                if (level.getMap()[row][col - 1] == '#')
+                if (level.GetMap()[row][col - 1] == '#')
                 {
                     left_arrow_angle = 90;
                     return true;
                 }
             }
-            else if (col == level.getWidth() - 1)
+            else if (col == level.GetWidth() - 1)
             {
-                if (level.getMap()[row][col - 1] == '#' && level.getMap()[row - 1][col] == '#')
+                if (level.GetMap()[row][col - 1] == '#' && level.GetMap()[row - 1][col] == '#')
                 {
                     left_arrow_angle = 90;
                     return true;
@@ -200,14 +200,14 @@ public class LevelBuilderJson : MonoBehaviour
         }
         else
         {
-            if (col == level.getWidth() - 1)
+            if (col == level.GetWidth() - 1)
             {
-                if (level.getMap()[row + 1][col] == '#' && level.getMap()[row][col - 1] == '#')
+                if (level.GetMap()[row + 1][col] == '#' && level.GetMap()[row][col - 1] == '#')
                 {
                     left_arrow_angle = 0;
                     return true;
                 }
-                else if (level.getMap()[row - 1][col] == '#' && level.getMap()[row][col - 1] == '#')
+                else if (level.GetMap()[row - 1][col] == '#' && level.GetMap()[row][col - 1] == '#')
                 {
                     left_arrow_angle = 90;
                     return true;
@@ -215,12 +215,12 @@ public class LevelBuilderJson : MonoBehaviour
             }
             else if (col != 0)
             {
-                if (level.getMap()[row + 1][col] == '#' && level.getMap()[row][col - 1] == '#')
+                if (level.GetMap()[row + 1][col] == '#' && level.GetMap()[row][col - 1] == '#')
                 {
                     left_arrow_angle = 0;
                     return true;
                 }
-                else if (level.getMap()[row - 1][col] == '#' && level.getMap()[row][col - 1] == '#')
+                else if (level.GetMap()[row - 1][col] == '#' && level.GetMap()[row][col - 1] == '#')
                 {
                     left_arrow_angle = 90;
                     return true;
@@ -232,29 +232,21 @@ public class LevelBuilderJson : MonoBehaviour
     }
     #endregion
 
-    public void translateByOffset(Vector3 prevLevelPos)
+    // level main point - empty game object on the center of level (parent object)
+    public void MoveLevelMainPointToTheCenter(Vector3 prevLevelPos)
     {
-        float pos_z = level.getHeight() / 2 * 2 + start_platform.transform.localScale.z;
+        float pos_z = level.GetHeight() / 2 * 2 + start_platform.transform.localScale.z;
         transform.position = prevLevelPos + new Vector3(0, 0, pos_z);
     }
 
-    public IEnumerator translateByOffsetCour(Vector3 prevLevelPos)
-    {
-        yield return new WaitForSeconds(2f);
-     
-        float pos_z = level.getHeight() / 2 * 2 + start_platform.transform.localScale.z;
-        transform.position = prevLevelPos + new Vector3(0, 0, pos_z);
-    }
-
-
-    private void cleanLevel()
+    private void DestroyLevelComponents()
     {
         for (int i = 0; i < transform.childCount; ++i)
             if (transform.GetChild(i).gameObject.tag != "Dead")
                 Destroy(transform.GetChild(i).gameObject);
     }
 
-    public LevelLoader.Level getLevel()
+    public LevelLoader.Level GetLevel()
     {
         return level;
     }

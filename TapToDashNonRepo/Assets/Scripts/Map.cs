@@ -6,6 +6,7 @@ using UnityEngine;
 public class Map : ScriptableObject
 {
     public Sprite img;
-    public int musicIndex;
+    public AudioClip background_music;
+
     public new string name;
 }

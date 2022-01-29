@@ -30,7 +30,7 @@ public class Player
         cmds = new Queue<MoveState>();
     }
 
-    public void addCmds(string[] cmds_data)
+    public void RefreshCurrentCommands(string[] cmds_data)
     {
 
         cmds.Clear();
@@ -54,7 +54,7 @@ public class Player
             }
     }
 
-    public void checkCurCmds()
+    public void CheckCurrentCommands()
     {
         string res = "";
 
@@ -80,32 +80,32 @@ public class Player
         Debug.Log(res.ToString());
     }
 
-    public float speed()
+    public float GetSpeed()
     {
         return MOVE_SPEED;
     }
 
-    public float jump()
+    public float GetJumpScale()
     {
         return MOVE_JUMP;
     }
 
-    public float rotateAngle()
+    public float GetRotationAngle()
     {
         return MOVE_ROTATE_ANGLE;
     }
 
-    public Queue<MoveState> getCmds()
+    public Queue<MoveState> GetCommandsContainer()
     {
         return cmds;
     }
 
-    public MoveState getCurCmd()
+    public MoveState GetCurCommand()
     {
         return cmds.Dequeue();
     }
 
-    public bool isEnded()
+    public bool IsEnded()
     {
         return isLast;
     }

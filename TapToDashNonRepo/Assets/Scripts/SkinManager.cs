@@ -13,34 +13,34 @@ public class SkinManager : MonoBehaviour
 
     private void Start()
     {
-        setSkin();
+        SetCurrentSkin();
     }
 
-    public void onNextButton()
+    public void OnNextButtonClicked()
     {
         skinId++;
         if (skinId == skins.Count)
             skinId = 0;
 
-        setSkin();
+        SetCurrentSkin();
     }
 
-    public void onPrevButtonClicked()
+    public void OnPrevButtonClicked()
     {
         skinId--;
         if (skinId < 0)
             skinId = skins.Count - 1;
 
-        setSkin();
+        SetCurrentSkin();
     }
 
-    private void setSkin()
+    private void SetCurrentSkin()
     {
         player_test.GetComponent<MeshRenderer>().material = skins[skinId].material;
         player_name.text = skins[skinId].name;
     }
 
-    public void loadSkin()
+    public void SaveCurrentSkinIdentifier()
     {
         PlayerPrefs.SetString("SkinName", player_name.text);
     }

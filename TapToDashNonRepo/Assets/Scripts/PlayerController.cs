@@ -31,9 +31,9 @@ public class PlayerController : MonoBehaviour
     void Update()
     {
         // move 
-        transform.Translate(transform.forward * player.speed() * Time.deltaTime);
+        transform.Translate(transform.forward * player.GetSpeed() * Time.deltaTime);
 
-        if (player.isEnded())
+        if (player.IsEnded())
         {
             gameWonPanel.SetActive(true);
             gameObject.SetActive(false);
@@ -52,22 +52,22 @@ public class PlayerController : MonoBehaviour
     private void move()
     {
 
-        if (player.getCmds().Count == 0)
+        if (player.GetCommandsContainer().Count == 0)
             return;
 
-        switch (player.getCurCmd())
+        switch (player.GetCurCommand())
         {
             case Player.MoveState.run:
                 Debug.Log("Run Wtf?!");
                 break;
             case Player.MoveState.left:
-                transform.Rotate(new Vector3(0, -player.rotateAngle(), 0));
+                transform.Rotate(new Vector3(0, -player.GetRotationAngle(), 0));
                 break;
             case Player.MoveState.right:
-                transform.Rotate(new Vector3(0, player.rotateAngle(), 0));
+                transform.Rotate(new Vector3(0, player.GetRotationAngle(), 0));
                 break;
             case Player.MoveState.up:
-                player_rb.velocity = Vector3.up * player.jump();
+                player_rb.velocity = Vector3.up * player.GetJumpScale();
                 break;
         }
     }

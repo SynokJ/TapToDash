@@ -5,34 +5,34 @@ using UnityEngine.SceneManagement;
 
 public class ButtonController : MonoBehaviour
 {
-    public void loadLevelScene()
+    public void LoadLevelScene()
     {
         SceneManager.LoadSceneAsync("GameLevel");
     }
 
-    public void onContinButtonClicked()
+    public void OnContinButtonClicked()
     {
         SceneManager.LoadSceneAsync("GameLevel");
     }
 
-    public void onStartButtonClicked()
+    public void OnStartButtonClicked()
     {
         PlayerPrefs.DeleteAll();
         SceneManager.LoadSceneAsync("GameLevel");
     }
 
-    public void onMenuButtonClicked()
+    public void OnMenuButtonClicked()
     {
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void onRestartButtonClicked()
+    public void OnRestartButtonClicked()
     {
         PlayerPrefs.DeleteAll();
         SceneManager.LoadScene("MainMenu");
     }
 
-    public void onExitButtonClicked()
+    public void OnExitButtonClicked()
     {
         Application.Quit();
     }

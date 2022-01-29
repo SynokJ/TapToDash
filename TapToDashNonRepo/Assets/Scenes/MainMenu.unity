@@ -208,7 +208,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1004695321}
         m_TargetAssemblyTypeName: SkinManager, Assembly-CSharp
-        m_MethodName: onPrevButtonClicked
+        m_MethodName: OnPrevButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -967,7 +967,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 998531426}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: onContinButtonClicked
+        m_MethodName: OnContinButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -979,7 +979,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1004695321}
         m_TargetAssemblyTypeName: SkinManager, Assembly-CSharp
-        m_MethodName: loadSkin
+        m_MethodName: SaveCurrentSkinIdentifier
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1194,7 +1194,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1033695783}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: onExitButtonClicked
+        m_MethodName: OnExitButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1422,7 +1422,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1004695321}
         m_TargetAssemblyTypeName: SkinManager, Assembly-CSharp
-        m_MethodName: onNextButton
+        m_MethodName: OnNextButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1835,7 +1835,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1928712868}
         m_TargetAssemblyTypeName: ButtonController, Assembly-CSharp
-        m_MethodName: onStartButtonClicked
+        m_MethodName: OnStartButtonClicked
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1847,7 +1847,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1004695321}
         m_TargetAssemblyTypeName: SkinManager, Assembly-CSharp
-        m_MethodName: loadSkin
+        m_MethodName: SaveCurrentSkinIdentifier
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

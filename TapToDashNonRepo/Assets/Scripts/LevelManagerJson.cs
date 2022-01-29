@@ -21,26 +21,26 @@ public class LevelManagerJson : MonoBehaviour
         InitCurLevel();
 
         player = pc.getPlayer();
-        player.addCmds(level_first.getLevel().cmds);
+        player.RefreshCurrentCommands(level_first.GetLevel().cmds);
     }
 
     void Update()
     {
-        if (pc.getPlayerPos().z > getTheDestCoordinate())
+        if (pc.getPlayerPos().z > GetDestinationPointCoordinates())
         {
-            if (IsFirstForward() && firstNext)
+            if (IsFirstLevelForward() && firstNext)
             {
-                player.addCmds(level_first.getLevel().cmds);
-                bc.ChangeMapStyle(cur_level);
+                player.RefreshCurrentCommands(level_first.GetLevel().cmds);
+                bc.ChangeLevelAssete(cur_level);
                 cur_level++;
                 firstNext = false;
 
                 levelComplitedSound.Play();
             }
-            else if (!IsFirstForward() && !firstNext)
+            else if (!IsFirstLevelForward() && !firstNext)
             {
-                player.addCmds(level_second.getLevel().cmds);
-                bc.ChangeMapStyle(cur_level);
+                player.RefreshCurrentCommands(level_second.GetLevel().cmds);
+                bc.ChangeLevelAssete(cur_level);
                 cur_level++;
                 firstNext = true;
 
@@ -49,39 +49,39 @@ public class LevelManagerJson : MonoBehaviour
 
         }
 
-        SwapLevels();
+        SwapCurLevels();
     }
 
-    public bool IsFirstForward()
+    public bool IsFirstLevelForward()
     {
         return level_first.gameObject.transform.position.z > level_second.transform.position.z;
     }
 
-    public void SwapLevels()
+    public void SwapCurLevels()
     {
 
         float player_pos = pc.gameObject.transform.position.z;
-        float first_pos = level_first.transform.position.z + level_first.getLevel().getHeight() / 2;
-        float second_pos = level_second.transform.position.z + level_second.getLevel().getHeight() / 2;
+        float first_pos = level_first.transform.position.z + level_first.GetLevel().GetHeight() / 2;
+        float second_pos = level_second.transform.position.z + level_second.GetLevel().GetHeight() / 2;
 
-        if (player_pos > first_pos + level_second.getLevel().getHeight() / 2)
+        if (player_pos > first_pos + level_second.GetLevel().GetHeight() / 2)
         {
-            level_first.setLevel(cur_level + 1);
-            level_first.drawMap();
-            level_first.translateByOffset(level_second.gameObject.transform.position);
+            level_first.SetLevelObject(cur_level + 1);
+            level_first.CreateLevelOnPlayground();
+            level_first.MoveLevelMainPointToTheCenter(level_second.gameObject.transform.position);
         }
-        else if (player_pos > second_pos + level_second.getLevel().getHeight() / 2)
+        else if (player_pos > second_pos + level_second.GetLevel().GetHeight() / 2)
         {
-            level_second.setLevel(cur_level + 1);
-            level_second.drawMap();
-            level_second.translateByOffset(level_first.gameObject.transform.position);
+            level_second.SetLevelObject(cur_level + 1);
+            level_second.CreateLevelOnPlayground();
+            level_second.MoveLevelMainPointToTheCenter(level_first.gameObject.transform.position);
         }
     }
 
-    public float getTheDestCoordinate()
+    public float GetDestinationPointCoordinates()
     {
-        float cur_lvl_pos = level_first.gameObject.transform.position.z + level_first.getLevel().getHeight() / 2;
-        float next_lvl_pos = level_second.gameObject.transform.position.z + level_second.getLevel().getHeight() / 2;
+        float cur_lvl_pos = level_first.gameObject.transform.position.z + level_first.GetLevel().GetHeight() / 2;
+        float next_lvl_pos = level_second.gameObject.transform.position.z + level_second.GetLevel().GetHeight() / 2;
 
         return (cur_lvl_pos < next_lvl_pos ? cur_lvl_pos : next_lvl_pos);
     }
@@ -94,13 +94,13 @@ public class LevelManagerJson : MonoBehaviour
         else if (cur_level == 0 && temp != -1)
             cur_level = temp;
 
-        level_first.setLevel(cur_level);
-        level_second.setLevel(cur_level + 1);
+        level_first.SetLevelObject(cur_level);
+        level_second.SetLevelObject(cur_level + 1);
 
-        level_first.drawMap();
-        level_second.drawMap();
+        level_first.CreateLevelOnPlayground();
+        level_second.CreateLevelOnPlayground();
 
-        level_second.translateByOffset(level_first.gameObject.transform.position);
+        level_second.MoveLevelMainPointToTheCenter(level_first.gameObject.transform.position);
     }
 
     public int GetCurLevel()

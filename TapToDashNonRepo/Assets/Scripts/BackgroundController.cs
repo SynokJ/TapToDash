@@ -9,31 +9,32 @@ public class BackgroundController : MonoBehaviour
     public LevelLoader levelLoader;
     public LevelManagerJson lmJson;
 
-    public AudioSource[] music;
+    public AudioSource music;
 
     private GameObject background;
+    private string last_music_name = "empty";
 
     void Start()
     {
         background = transform.GetChild(0).gameObject;
-        ChangeMapStyle(lmJson.GetCurLevel() - 1);
+        ChangeLevelAssete(lmJson.GetCurLevel() - 1);
     }
 
-    public void ChangeMapStyle(int levelIndex)
+    public void ChangeLevelAssete(int levelIndex)
     {
         foreach (Map cur_map in maps)
         {
+
             if (levelLoader.curMap.level[levelIndex].style == cur_map.name)
             {
+                music.clip = cur_map.background_music;
                 background.GetComponent<SpriteRenderer>().sprite = cur_map.img;
 
-                if (!music[cur_map.musicIndex].isPlaying)
+                if (music.clip.name != last_music_name)
                 {
-
-                    music[cur_map.musicIndex].Play();
-
-                    if (cur_map.musicIndex != 0)
-                        music[cur_map.musicIndex - 1].Stop();
+                    music.Play();
+                    last_music_name = music.clip.name;
+                    break;
                 }
             }
         }

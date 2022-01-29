@@ -16,22 +16,22 @@ public class LevelLoader : MonoBehaviour
         private int width;
         private int height;
 
-        public int getWidth()
+        public int GetWidth()
         {
             return map[0].Length;
         }
 
-        public int getHeight()
+        public int GetHeight()
         {
             return map.Length;
         }
 
-        public string[] getMap()
+        public string[] GetMap()
         {
             return map;
         }
 
-        public void reverseMap()
+        public void ReverseMap()
         {
             for(int i = 0, j = map.Length - 1; i < j; ++i, --j)
             {
@@ -47,10 +47,10 @@ public class LevelLoader : MonoBehaviour
     {
         public Level[] level;
 
-        public void reverseLevels()
+        public void ReverseLevelsMap()
         {
             foreach (Level l in level)
-                l.reverseMap();
+                l.ReverseMap();
         }
     }
 
@@ -67,6 +67,6 @@ public class LevelLoader : MonoBehaviour
         }
 
         curMap = JsonUtility.FromJson<LevelBox>(jsonText.text);
-        curMap.reverseLevels();
+        curMap.ReverseLevelsMap();
     }
 }
