@@ -36,6 +36,7 @@ public class LevelManagerJson : MonoBehaviour
                 firstNext = false;
 
                 levelComplitedSound.Play();
+                pc.IncreaseSpeed();
             }
             else if (!IsFirstLevelForward() && !firstNext)
             {
@@ -45,6 +46,7 @@ public class LevelManagerJson : MonoBehaviour
                 firstNext = true;
 
                 levelComplitedSound.Play();
+                pc.IncreaseSpeed();
             }
 
         }

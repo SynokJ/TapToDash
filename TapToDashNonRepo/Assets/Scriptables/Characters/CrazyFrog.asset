@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: CrazyFrog
   speed: 7
+  cost: 10000
+  isOpen: 0
   material: {fileID: 2100000, guid: 478ba966148c01642825d7c8fa8a02e5, type: 2}

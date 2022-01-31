@@ -14,4 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: def
   speed: 5
+  cost: 0
+  isOpen: 1
   material: {fileID: 2100000, guid: 23cfa7f2090ce544380a77c5f5de9b68, type: 2}

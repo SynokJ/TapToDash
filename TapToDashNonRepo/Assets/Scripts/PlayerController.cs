@@ -9,7 +9,9 @@ public class PlayerController : MonoBehaviour
     private Rigidbody player_rb;
     private Player player;
     private int score_num = 0;
+    private float cur_player_speed = 0;
     private Character character;
+    private float max_player_speed = 12f;
 
     public LevelManagerJson levelManager;
     public AudioSource loseAudio;
@@ -25,13 +27,14 @@ public class PlayerController : MonoBehaviour
 
         setChar();
         player = new Player(character.speed);
+        cur_player_speed = player.GetSpeed();
         gameObject.GetComponent<MeshRenderer>().material = character.material;
     }
 
     void Update()
     {
         // move 
-        transform.Translate(transform.forward * player.GetSpeed() * Time.deltaTime);
+        transform.Translate(transform.forward * cur_player_speed * Time.deltaTime);
 
         if (player.IsEnded())
         {
@@ -47,6 +50,12 @@ public class PlayerController : MonoBehaviour
             if (touch.phase == TouchPhase.Began)
                 move();
         }
+    }
+
+    public void IncreaseSpeed()
+    {
+        if (cur_player_speed < max_player_speed)
+            cur_player_speed += 0.5f;
     }
 
     private void move()
@@ -86,7 +95,14 @@ public class PlayerController : MonoBehaviour
             score_num++;
             score_text.text = score_num.ToString();
             other.gameObject.SetActive(false);
+
+            setMoney();
         }
+    }
+
+    public void setMoney()
+    {
+        PlayerPrefs.SetInt("CoinNumTemp", score_num);
     }
 
     public Player getPlayer()
