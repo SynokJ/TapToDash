@@ -6,20 +6,27 @@ using System.IO;
 
 public class Test : MonoBehaviour
 {
+
+    public SkinManager sm;
+    private MyClass test_01;
+    private string data_text;
+
     void Start()
     {
-        MyClass test_01 = new MyClass();
+        test_01 = new MyClass();
         test_01.name = "Name";
         test_01.progressStage = 1;
         test_01.skins = new string[] { "def" };
 
-        string data_text = JsonUtility.ToJson(test_01);
-        Debug.Log(data_text);
+        data_text = JsonUtility.ToJson(test_01);
 
         CheckContainer(test_01.skins);
         test_01.skins = AddElementToContainer(test_01.skins, "rabbit");
         CheckContainer(test_01.skins);
 
+        data_text = JsonUtility.ToJson(test_01);
+
+        //File.WriteAllText(Application.persistentDataPath + "/Resources/Test.json", data_text);
         File.WriteAllText(Application.dataPath + "/Resources/Test.json", data_text);
     }
 
@@ -41,6 +48,16 @@ public class Test : MonoBehaviour
         temp_box.Add(element);
 
         return (string[])temp_box.ToArray();
+    }
+
+    public void UnlockSkin()
+    {
+        foreach (string s in test_01.skins)
+            if (s == sm.GetCurSkin().name)
+                Debug.Log(s);
+            else
+                Debug.Log(s + " is not open");
+
     }
 }
 

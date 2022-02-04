@@ -12,32 +12,10 @@ public class SkinManager : MonoBehaviour
     public TextMeshProUGUI player_name;
     public TextMeshProUGUI coins;
 
-
-    class Player
-    {
-        public int coins;
-        public string[] skins;
-    }
-
     private void Start()
     {
         SetCurrentSkin();
         setCoins();
-
-        TextAsset player_data = (TextAsset)Resources.Load<TextAsset>("PlayerData");
-
-        if (player_data == null)
-            Debug.Log("GG");
-
-        Player player = JsonUtility.FromJson<Player>(player_data.text);
-        Debug.Log(player.coins);
-
-        string skins_res = "";
-
-        foreach (string s in player.skins)
-            skins_res += s + " ";
-
-        Debug.Log(skins_res);
     }
 
     public void setCoins()
@@ -79,6 +57,11 @@ public class SkinManager : MonoBehaviour
             return;
 
         PlayerPrefs.SetString("SkinName", player_name.text);
+    }
+
+    public Character GetCurSkin()
+    {
+        return skins[skinId];
     }
 
     private bool IsSkinOpen()
