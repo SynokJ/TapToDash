@@ -10,7 +10,7 @@ public class Character : ScriptableObject
     public new string name;
     public float speed;
     public int cost;
-    public bool isOpen = false;
+    public bool isOpen;
 
     public Material material;
 }

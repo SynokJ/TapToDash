@@ -13,27 +13,24 @@ public class ButtonController : MonoBehaviour
 
     public void OnContinButtonClicked()
     {
-        SetGlobalCoinNum();
         SceneManager.LoadSceneAsync("GameLevel");
     }
 
     public void OnStartButtonClicked()
     {
-        SetGlobalCoinNum();
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey("CurLevel");
         SceneManager.LoadSceneAsync("GameLevel");
     }
 
     public void OnMenuButtonClicked()
     {
-        SetGlobalCoinNum();
         SceneManager.LoadScene("MainMenu");
     }
 
     public void OnRestartButtonClicked()
     {
         SetGlobalCoinNum();
-        PlayerPrefs.DeleteAll();
+        PlayerPrefs.DeleteKey("CurLevel");
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -44,7 +41,12 @@ public class ButtonController : MonoBehaviour
 
     public void SetGlobalCoinNum()
     {
-        int coin_num = PlayerPrefs.GetInt("CoinNum", 0) + PlayerPrefs.GetInt("CoinNumTemp", 0);
+        int coin_num = PlayerPrefs.GetInt("CoinNum", 0);
+
+        if (PlayerPrefs.GetInt("CoinNumTemp", 0) != 0)
+            coin_num += PlayerPrefs.GetInt("CoinNumTemp", 0);
+
         PlayerPrefs.SetInt("CoinNum", coin_num);
+        PlayerPrefs.SetInt("CoinNumTemp", 0);
     }
 }
