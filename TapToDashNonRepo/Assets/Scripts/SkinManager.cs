@@ -10,11 +10,10 @@ public class SkinManager : MonoBehaviour
 
     private int skinId = 0;
 
-    public TextMeshProUGUI test;
-
     public GameObject mainMenu;
     public GameObject buyMenu;
     public TextMeshProUGUI price_text;
+    public TextMeshProUGUI test_text;
 
     public PlayerProgress pp;
     public List<Character> skins;
@@ -22,8 +21,18 @@ public class SkinManager : MonoBehaviour
     public TextMeshProUGUI player_name;
     public TextMeshProUGUI coins;
 
+
     private void Start()
     {
+        Debug.Log(PlayerPrefs.GetInt("HasPlayed", -1));
+
+        if (PlayerPrefs.GetInt("HasPlayed") == 0)
+        {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.SetInt("HasPlayed", 1);
+            pp = null;
+        }
+
         InitPlayerProgress();
         SetCurrentSkin();
         setCoins();
@@ -53,51 +62,57 @@ public class SkinManager : MonoBehaviour
 
     public void InitPlayerProgress()
     {
-        pp = new PlayerProgress();
-        pp.name = "player";
-        pp.progressStage = 0;
+        if (pp == null)
+        {
+            pp = new PlayerProgress();
+
+            StreamReader sr = new StreamReader(Application.persistentDataPath + "/Test.json");
+            Debug.Log(sr.ReadToEnd());
+            sr.Close();
+        }
+        else
+        {
+            Debug.Log("Right Here");
+            StreamReader sr = new StreamReader(Application.persistentDataPath + "/Test.json");
+            pp = JsonUtility.FromJson<PlayerProgress>(sr.ReadToEnd());
+
+            sr.Close();
+        }
+
+        SavePlayerData();
         InitUnlockedSkins();
 
+        string res = JsonUtility.ToJson(pp);
+        test_text.text = res;
+    }
+
+    public void SavePlayerData()
+    {
+        InitUnlockedSkins();
         string data = JsonUtility.ToJson(pp);
+        Debug.Log(data);
 
-        //string path = Path.Combine(Application.persistentDataPath, "saved files", "data.json");
-
-        //if (Application.persistentDataPath != null)
-        //    //    File.WriteAllText(Application.persistentDataPath + "/Resources/Test.json", data);
-        //    //else
-        //    Debug.Log(path);
-
-        //File.WriteAllText(Application.dataPath + "/Resources/Test.json", data);
-
-        test.text = Application.persistentDataPath + "Test.json";
+        StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Test.json");
+        sw.Write(data);
+        sw.Close();
     }
 
     public void RefreshPlayerProgress()
     {
         InitUnlockedSkins();
+        SavePlayerData();
 
-        string data = JsonUtility.ToJson(pp);
-        Debug.Log(data);
-
-        //File.WriteAllText(Application.persistentDataPath + "/Resources/Test.json", data_text);
-        //File.WriteAllText(Application.dataPath + "/Resources/Test.json", data);
+        string res = JsonUtility.ToJson(pp);
+        test_text.text = res;
     }
 
     public void InitUnlockedSkins()
     {
-
-        //string res = "";
-
         foreach (Character ch in skins)
-        {
-            if (ch.isOpen)
-            {
-                //res += ch.name + "\t";
-                pp.skins = UnlockCurrentSkin(pp.skins, ch.name);
-            }
-        }
-
-        //Debug.Log("Open Skins : " + res);
+            if (Array.IndexOf(pp.skins, ch.name) >= 0)
+                ch.isOpen = true;
+            else
+                ch.isOpen = false;
     }
 
     public void OpenSkinButtonClicked()
@@ -109,8 +124,7 @@ public class SkinManager : MonoBehaviour
 
         if (coin_number - skins[skinId].cost >= 0)
         {
-            //Debug.Log("Open Skin : " + skins[skinId].name + "\tCost : " + skins[skinId].cost);
-            skins[skinId].isOpen = true;
+            pp.skins = UnlockCurrentSkin(pp.skins, skins[skinId].name);
             PlayerPrefs.SetInt("CoinNum", coin_number - skins[skinId].cost);
             coins.text = "Money: " + (coin_number - skins[skinId].cost).ToString();
         }
@@ -172,5 +186,20 @@ public class PlayerProgress
 {
     public string name;
     public int progressStage;
+    public int cur_money;
     public string[] skins;
+
+    public PlayerProgress()
+    {
+        name = "player";
+        progressStage = 0;
+        cur_money = 0;
+        skins = new string[] { "def" };
+    }
+}
+
+[Serializable]
+public class GameRunstate
+{
+    public bool isFirstTime;
 }

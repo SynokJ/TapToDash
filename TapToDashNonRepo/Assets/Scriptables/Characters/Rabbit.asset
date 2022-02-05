@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   name: rabbit
   speed: 6
-  cost: 100
-  isOpen: 1
+  cost: 1
+  isOpen: 0
   material: {fileID: 2100000, guid: 9afcbaf2a29a630448f84bc2364a7d15, type: 2}

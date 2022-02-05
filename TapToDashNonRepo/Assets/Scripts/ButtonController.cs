@@ -27,6 +27,12 @@ public class ButtonController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void onResetButtonClicked()
+    {
+        PlayerPrefs.DeleteAll();
+        SceneManager.LoadScene("MainMenu");
+    }
+
     public void OnRestartButtonClicked()
     {
         SetGlobalCoinNum();
@@ -36,6 +42,7 @@ public class ButtonController : MonoBehaviour
 
     public void OnExitButtonClicked()
     {
+        PlayerPrefs.Save();
         Application.Quit();
     }
 
