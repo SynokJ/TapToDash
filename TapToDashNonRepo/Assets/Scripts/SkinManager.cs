@@ -13,7 +13,6 @@ public class SkinManager : MonoBehaviour
     public GameObject mainMenu;
     public GameObject buyMenu;
     public TextMeshProUGUI price_text;
-    public TextMeshProUGUI test_text;
 
     public PlayerProgress pp;
     public List<Character> skins;
@@ -24,8 +23,7 @@ public class SkinManager : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log(PlayerPrefs.GetInt("HasPlayed", -1));
-
+        // The first time of running the game
         if (PlayerPrefs.GetInt("HasPlayed") == 0)
         {
             PlayerPrefs.DeleteAll();
@@ -65,14 +63,10 @@ public class SkinManager : MonoBehaviour
         if (pp == null)
         {
             pp = new PlayerProgress();
-
-            StreamReader sr = new StreamReader(Application.persistentDataPath + "/Test.json");
-            Debug.Log(sr.ReadToEnd());
-            sr.Close();
+            //CheckPlayerProgressFile();
         }
         else
         {
-            Debug.Log("Right Here");
             StreamReader sr = new StreamReader(Application.persistentDataPath + "/Test.json");
             pp = JsonUtility.FromJson<PlayerProgress>(sr.ReadToEnd());
 
@@ -81,16 +75,20 @@ public class SkinManager : MonoBehaviour
 
         SavePlayerData();
         InitUnlockedSkins();
+    }
 
-        string res = JsonUtility.ToJson(pp);
-        test_text.text = res;
+    public void CheckPlayerProgressFile()
+    {
+        StreamReader sr = new StreamReader(Application.persistentDataPath + "/Test.json");
+        Debug.Log(sr.ReadToEnd());
+        sr.Close();
     }
 
     public void SavePlayerData()
     {
         InitUnlockedSkins();
+
         string data = JsonUtility.ToJson(pp);
-        Debug.Log(data);
 
         StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Test.json");
         sw.Write(data);
@@ -103,7 +101,6 @@ public class SkinManager : MonoBehaviour
         SavePlayerData();
 
         string res = JsonUtility.ToJson(pp);
-        test_text.text = res;
     }
 
     public void InitUnlockedSkins()
