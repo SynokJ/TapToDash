@@ -92,7 +92,10 @@ public class LevelManagerJson : MonoBehaviour
     {
         int temp = PlayerPrefs.GetInt("CurLevel", -1);
         if (temp == -1)
+        {
             cur_level = 1;
+            PlayerPrefs.SetInt("CurLevel", cur_level);
+        }
         else if (cur_level == 0 && temp != -1)
             cur_level = temp;
 

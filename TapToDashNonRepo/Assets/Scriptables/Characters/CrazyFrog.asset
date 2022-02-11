@@ -17,3 +17,11 @@ MonoBehaviour:
   cost: 10000
   isOpen: 0
   material: {fileID: 2100000, guid: 478ba966148c01642825d7c8fa8a02e5, type: 2}
+  test_material:
+  - {fileID: -876546973899608171, guid: 226b4f6ceeb47fb4199d47f44174db9f, type: 3}
+  - {fileID: -4457717315534313294, guid: 226b4f6ceeb47fb4199d47f44174db9f, type: 3}
+  - {fileID: -6820086067423744752, guid: 226b4f6ceeb47fb4199d47f44174db9f, type: 3}
+  - {fileID: 4104608636383039068, guid: 226b4f6ceeb47fb4199d47f44174db9f, type: 3}
+  - {fileID: -4288583467269203127, guid: 226b4f6ceeb47fb4199d47f44174db9f, type: 3}
+  - {fileID: 6983786867351396761, guid: 226b4f6ceeb47fb4199d47f44174db9f, type: 3}
+  test_mesh: {fileID: 4711208715938537054, guid: 226b4f6ceeb47fb4199d47f44174db9f, type: 3}

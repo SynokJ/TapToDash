@@ -19,7 +19,7 @@ public class PlayerController : MonoBehaviour
     public GameObject gameOverPanel;
     public GameObject gameWonPanel;
     public List<Character> character_box;
-
+    public Animator anim;
 
     void Awake()
     {
@@ -29,6 +29,12 @@ public class PlayerController : MonoBehaviour
         player = new Player(character.speed);
         cur_player_speed = player.GetSpeed();
         gameObject.GetComponent<MeshRenderer>().material = character.material;
+
+        if(character.test_mesh != null)
+        {
+            gameObject.GetComponent<MeshRenderer>().materials = character.test_material;
+            gameObject.GetComponent<MeshFilter>().mesh = character.test_mesh;
+        }
     }
 
     void Update()
@@ -77,6 +83,7 @@ public class PlayerController : MonoBehaviour
                 break;
             case Player.MoveState.up:
                 player_rb.velocity = Vector3.up * player.GetJumpScale();
+                anim.SetTrigger("doJump");
                 break;
         }
     }

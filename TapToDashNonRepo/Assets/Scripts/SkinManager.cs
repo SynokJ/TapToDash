@@ -156,8 +156,17 @@ public class SkinManager : MonoBehaviour
 
     private void SetCurrentSkin()
     {
+        // init new materials
+
         player_test.GetComponent<MeshRenderer>().material = skins[skinId].material;
         player_name.text = skins[skinId].name;
+
+        if(skins[skinId].test_material != null)
+        {
+            player_test.GetComponent<MeshFilter>().mesh = skins[skinId].test_mesh;
+            player_test.GetComponent<MeshRenderer>().materials = skins[skinId].test_material;
+            player_test.transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
 
         mainMenu.SetActive(skins[skinId].isOpen);
         buyMenu.SetActive(!skins[skinId].isOpen);

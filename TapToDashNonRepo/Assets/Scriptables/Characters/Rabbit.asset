@@ -15,5 +15,11 @@ MonoBehaviour:
   name: rabbit
   speed: 6
   cost: 1
-  isOpen: 0
+  isOpen: 1
   material: {fileID: 2100000, guid: 9afcbaf2a29a630448f84bc2364a7d15, type: 2}
+  test_material:
+  - {fileID: -9103484930961366303, guid: b04123a4e520cfa4389fa9144d767a79, type: 3}
+  - {fileID: 1980910737569549951, guid: b04123a4e520cfa4389fa9144d767a79, type: 3}
+  - {fileID: 1318401382451312288, guid: b04123a4e520cfa4389fa9144d767a79, type: 3}
+  - {fileID: -6478536213147159724, guid: b04123a4e520cfa4389fa9144d767a79, type: 3}
+  test_mesh: {fileID: 4711208715938537054, guid: b04123a4e520cfa4389fa9144d767a79, type: 3}

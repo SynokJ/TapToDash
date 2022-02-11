@@ -13,4 +13,6 @@ public class Character : ScriptableObject
     public bool isOpen;
 
     public Material material;
+    public Material[] test_material;
+    public Mesh test_mesh;
 }
