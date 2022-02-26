@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -60,5 +61,12 @@ public class ButtonController : MonoBehaviour
     public void OnBuilderLoadButtonClicked()
     {
         SceneManager.LoadScene("MapBuilder");
+    }
+
+    public void OnTestButtonClicked()
+    {
+        StreamReader sr = new StreamReader(Application.persistentDataPath + "/Custom.json");
+        Debug.Log(sr.ReadToEnd());
+        sr.Close();
     }
 }

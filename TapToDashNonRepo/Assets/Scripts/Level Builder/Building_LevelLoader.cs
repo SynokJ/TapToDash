@@ -35,6 +35,17 @@ public class Building_LevelLoader : MonoBehaviour
         sw.Close();
     }
 
+    public void ResetCustomMaps()
+    {
+        levelBox = new LevelBox();
+        string data = JsonUtility.ToJson(levelBox);
+
+        StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Custom.json");
+        Debug.Log("Reseted");
+        sw.Write(data);
+        sw.Close();
+    }
+
     private void InitCurLevel()
     {
         string[] map = bg.GetCustomLevel().ToArray();
