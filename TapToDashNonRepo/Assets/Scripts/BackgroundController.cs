@@ -25,7 +25,7 @@ public class BackgroundController : MonoBehaviour
         foreach (Map cur_map in maps)
         {
 
-            if (levelLoader.curMap.level[levelIndex].style == cur_map.name)
+            if (levelLoader.curMap.levels[levelIndex].style == cur_map.name)
             {
                 music.clip = cur_map.background_music;
                 background.GetComponent<SpriteRenderer>().sprite = cur_map.img;

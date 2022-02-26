@@ -12,23 +12,23 @@ public class LevelBuilderJson : MonoBehaviour
 
     public LevelLoader levelLoader;
 
-    private LevelLoader.Level level;
+    private Level level;
     private float right_arrow_angle = 0;
     private float left_arrow_angle = 0;
 
     void Start()
     {
-        level = levelLoader.curMap.level[1];
+        level = levelLoader.curMap.levels[1];
         CreateLevelOnPlayground();
     }
 
     public void SetLevelObject(int levelIndex)
     {
 
-        if (levelIndex == levelLoader.curMap.level.Length)
+        if (levelIndex == levelLoader.curMap.levels.Length)
             levelIndex = 0;
 
-        level = levelLoader.curMap.level[levelIndex];
+        level = levelLoader.curMap.levels[levelIndex];
     }
 
     public void CreateLevelOnPlayground()
@@ -246,7 +246,7 @@ public class LevelBuilderJson : MonoBehaviour
                 Destroy(transform.GetChild(i).gameObject);
     }
 
-    public LevelLoader.Level GetLevel()
+    public Level GetLevel()
     {
         return level;
     }

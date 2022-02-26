@@ -7,6 +7,7 @@ public class LevelManagerJson : MonoBehaviour
 
     public LevelBuilderJson level_first;
     public LevelBuilderJson level_second;
+
     public PlayerController pc;
     public LevelLoader levelLoader;
     public AudioSource levelComplitedSound;

@@ -56,4 +56,9 @@ public class ButtonController : MonoBehaviour
         PlayerPrefs.SetInt("CoinNum", coin_num);
         PlayerPrefs.SetInt("CoinNumTemp", 0);
     }
+
+    public void OnBuilderLoadButtonClicked()
+    {
+        SceneManager.LoadScene("MapBuilder");
+    }
 }
