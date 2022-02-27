@@ -21,10 +21,10 @@ public class Building_LevelLoader : MonoBehaviour
     public void OnSaveButtonClicked()
     {
         InitCurLevel();
-        SaveCurLevel();
+        SaveCustomLevel();
     }
 
-    private void SaveCurLevel()
+    private void SaveCustomLevel()
     {
         levelBox.AddLevel(level);
         string data = JsonUtility.ToJson(levelBox);
@@ -33,18 +33,22 @@ public class Building_LevelLoader : MonoBehaviour
         Debug.Log(Application.persistentDataPath + "/Custom.json");
         sw.Write(data);
         sw.Close();
+
+        StreamReader sr = new StreamReader(Application.persistentDataPath + "/Custom.json");
+        Debug.Log(sr.ReadToEnd());
+        sr.Close();
     }
 
-    public void ResetCustomMaps()
-    {
-        levelBox = new LevelBox();
-        string data = JsonUtility.ToJson(levelBox);
+    //public void OnResetButtonClicked()
+    //{
+    //    levelBox = new LevelBox();
+    //    string data = JsonUtility.ToJson(levelBox);
 
-        StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Custom.json");
-        Debug.Log("Reseted");
-        sw.Write(data);
-        sw.Close();
-    }
+    //    StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Custom.json");
+    //    Debug.Log("Reseted");
+    //    sw.Write(data);
+    //    sw.Close();
+    //}
 
     private void InitCurLevel()
     {
@@ -54,5 +58,15 @@ public class Building_LevelLoader : MonoBehaviour
         level.style = "nostyle";
         level.cmds = new string[] { "run" };
         level.map = map;
+    }
+
+    public LevelBox GetLevelBox()
+    {
+        return levelBox;
+    }
+
+    public Level GetLevel()
+    {
+        return level;
     }
 }

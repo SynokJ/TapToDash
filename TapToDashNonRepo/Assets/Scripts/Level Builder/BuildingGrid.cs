@@ -19,9 +19,6 @@ public class BuildingGrid : MonoBehaviour
     private float offset_x;
     private float offset_y;
 
-    // 4
-    // 0 1 2 3
-
     void Start()
     {
         map = new MapItem[GridSize.x, GridSize.y];
@@ -140,10 +137,6 @@ public class BuildingGrid : MonoBehaviour
 
             res.Add(line);
         }
-
-
-        //foreach (string s in res)
-        //    Debug.Log(s);
 
         return res;
     }
