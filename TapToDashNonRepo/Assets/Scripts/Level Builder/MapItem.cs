@@ -7,6 +7,8 @@ public class MapItem : MonoBehaviour
     public Renderer mainRenderer;
     public Vector2Int Size = Vector2Int.one;
 
+
+    // Draw gizmo 
     public void OnDrawGizmosSelected()
     {
         for (int x = 0; x < Size.x; ++x)
@@ -17,11 +19,13 @@ public class MapItem : MonoBehaviour
             }
     }
 
+    // Check the correctness of placing an object 
     public void SetTransparent(bool available)
     {
         mainRenderer.material.color = available ? Color.green : Color.red; 
     }
 
+    // Set the default color 
     public void SetNormal()
     {
         mainRenderer.material.color = Color.white;

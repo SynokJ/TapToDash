@@ -68,5 +68,7 @@ public class ButtonController : MonoBehaviour
         StreamReader sr = new StreamReader(Application.persistentDataPath + "/Custom.json");
         Debug.Log(sr.ReadToEnd());
         sr.Close();
+
+        SceneManager.LoadScene("CustomLevel");
     }
 }

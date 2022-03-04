@@ -23,6 +23,7 @@ public class BuildingGrid : MonoBehaviour
     {
         map = new MapItem[GridSize.x, GridSize.y];
 
+        // draw map
         offset_x = GridSize.x / 2;
         offset_y = GridSize.y / 2;
 
@@ -30,7 +31,7 @@ public class BuildingGrid : MonoBehaviour
             offset_x += 1;
 
         mainCamera = Camera.main;
-
+        
         flyingItem = Instantiate(flyingItem_pref);
 
         InitBackgroundPlane();
@@ -48,7 +49,6 @@ public class BuildingGrid : MonoBehaviour
 
         if (flyingItem != null && Input.touchCount != 0)
         {
-
             var groundPlane = new Plane(Vector3.up, Vector3.zero);
             Ray ray = mainCamera.ScreenPointToRay(touch.position);
 
@@ -112,9 +112,7 @@ public class BuildingGrid : MonoBehaviour
     {
         for (int x = 0; x < flyingItem_pref.Size.x; ++x)
             for (int y = 0; y < flyingItem_pref.Size.y; ++y)
-            {
                 map[placeX, placeY] = flyingItem_pref;
-            }
     }
 
     public List<string> GetCustomLevel()
@@ -132,7 +130,6 @@ public class BuildingGrid : MonoBehaviour
                     line += "#";
                 else
                     line += ".";
-
             }
 
             res.Add(line);

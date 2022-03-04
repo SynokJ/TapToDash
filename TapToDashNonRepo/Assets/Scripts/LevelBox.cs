@@ -24,5 +24,7 @@ public class LevelBox
 
         if (!temp.Contains(other))
             temp.Add(other);
+
+        levels = temp.ToArray();
     }
 }

@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapBuilder.unity
     guid: cc8bd0a1b7138f348bdcf99473009be2
+  - enabled: 1
+    path: Assets/Scenes/CustomLevel.unity
+    guid: 077ac24a4d1dbe04d84540663e34c45b
   m_configObjects: {}
