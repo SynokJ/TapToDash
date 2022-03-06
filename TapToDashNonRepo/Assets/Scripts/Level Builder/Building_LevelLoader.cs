@@ -59,29 +59,33 @@ public class Building_LevelLoader : MonoBehaviour
         level.map = map;
 
         List<string> cmds = new List<string>();
-        List<Tuple<int, int>> cmds_cor = new List<Tuple<int, int>>();
-
 
         for (int r = 0; r < map.Length; ++r)
+        {
+
+            List<Tuple<string, int>> cmds_row = new List<Tuple<string, int>>();
             for (int c = 0; c < map[0].Length; ++c)
             {
                 if (map[r][c] == '#')
                 {
-                    cmds_cor.Add(new Tuple<int, int>(r, c));
-
                     if (IsGap(r, c, map))
                     {
-                        cmds.Add("up");
-                        break;
+                        //cmds.Add("up");
+                        cmds_row.Add(new Tuple<string, int>("up", r));
+                        //break;
                     }
 
                     if (r > 0 && r < map.Length - 1 && map[r - 1][c] == map[r][c] && map[r + 1][c] == map[r][c])
                         if (c < map[0].Length - 1 && map[r][c + 1] == map[r][c] && map[r + 1][c + 1] == map[r][c])
                         {
-                            cmds.Add("right");
-                            cmds.Add("left");
-                            cmds.Add("left");
-                            cmds.Add("right");
+                            cmds_row.Add(new Tuple<string, int>("right", r));
+                            cmds_row.Add(new Tuple<string, int>("left", r));
+                            cmds_row.Add(new Tuple<string, int>("left", r));
+                            cmds_row.Add(new Tuple<string, int>("right", r));
+                            //cmds.Add("right");
+                            //cmds.Add("left");
+                            //cmds.Add("left");
+                            //cmds.Add("right");
                             r++;
                             break;
                         }
@@ -89,40 +93,75 @@ public class Building_LevelLoader : MonoBehaviour
                     if (r > 0 && r < map.Length - 1 && map[r - 1][c + 1] == map[r][c] && map[r + 1][c + 1] == map[r][c])
                         if (c > 0 && map[r][c + 1] == map[r][c] && map[r + 1][c] == map[r][c])
                         {
-                            cmds.Add("left");
-                            cmds.Add("right");
-                            cmds.Add("right");
-                            cmds.Add("left");
+                            cmds_row.Add(new Tuple<string, int>("left", r));
+                            cmds_row.Add(new Tuple<string, int>("right", r));
+                            cmds_row.Add(new Tuple<string, int>("right", r));
+                            cmds_row.Add(new Tuple<string, int>("left", r));
+                            //cmds.Add("left");
+                            //cmds.Add("right");
+                            //cmds.Add("right");
+                            //cmds.Add("left");
                             r++;
                             break;
                         }
 
                     if (r > 0 && c < map[r].Length - 1 && map[r - 1][c] == map[r][c] && map[r][c + 1] == map[r][c])
-                        cmds.Add("right");
+                    {
+                        //cmds.Add("right");
+                        cmds_row.Add(new Tuple<string, int>("right", r));
+                    }
                     else if (c < map[r].Length - 1 && r < map.Length - 1 && map[r][c + 1] == map[r][c] && map[r + 1][c] == map[r][c])
-                        cmds.Add("right");
+                    {
+                        //cmds.Add("right");
+                        cmds_row.Add(new Tuple<string, int>("right", r));
+                    }
                     else if (r > 0 && c > 0 && map[r - 1][c] == map[r][c] && map[r][c - 1] == map[r][c])
                     {
-                        cmds.Add("left");
-
-
-                        //TODO TEST
-                        if (cmds.Count <= 1)
-                            break;
-
-                        string cmd_01 = cmds[cmds.Count - 1];
-                        string cmd_02 = cmds[cmds.Count - 2];
-
-                        if (cmds_cor.Count > 2 && cmds_cor[cmds_cor.Count - 1].Item1 == cmds_cor[cmds_cor.Count - 2].Item1 && cmd_01 == "left" && cmd_02 == "right")
-                        {
-                            cmds.RemoveAt(cmds.Count - 1);
-                            cmds.Insert(cmds.Count - 2, "left");
-                        }
+                        //cmds.Add("left");
+                        cmds_row.Add(new Tuple<string, int>("left", r));
                     }
                     else if (c > 0 && r < map.Length - 1 && map[r][c - 1] == map[r][c] && map[r + 1][c] == map[r][c])
-                        cmds.Add("left");
+                    {
+                        //cmds.Add("left");
+                        cmds_row.Add(new Tuple<string, int>("left", r));
+                    }
                 }
             }
+
+            if (cmds_row.Count > 0)
+            {
+                if (cmds_row.Count == 1 && cmds_row[cmds_row.Count - 1].Item1 == "up")
+                {
+                    cmds.Add("up");
+                    continue;
+                }
+
+                if (cmds.Count > 0)
+                {
+                    int temp_size = cmds.Count - 1;
+                    string temp_cmd = cmds[temp_size];
+
+                    while (temp_size > 0 && temp_cmd == "up")
+                        temp_cmd = cmds[temp_size--];
+
+                    if (cmds.Count > 0 && temp_cmd == "left")
+                        for (int i = cmds_row.Count - 1; i >= 0; --i)
+                            cmds.Add(cmds_row[i].Item1);
+                    else if (cmds.Count > 0 && temp_cmd == "right")
+                        for (int i = 0; i < cmds_row.Count; ++i)
+                            cmds.Add(cmds_row[i].Item1);
+                }
+                else
+                {
+                    if (cmds_row[cmds_row.Count - 1].Item1 == "left")
+                        for (int i = cmds_row.Count - 1; i >= 0; --i)
+                            cmds.Add(cmds_row[i].Item1);
+                    else if (cmds_row[cmds_row.Count - 1].Item1 == "right")
+                        for (int i = 0; i < cmds_row.Count; ++i)
+                            cmds.Add(cmds_row[i].Item1);
+                }
+            }
+        }
 
         level.cmds = cmds.Count == 0 ? new string[] { "run" } : cmds.ToArray();
 
