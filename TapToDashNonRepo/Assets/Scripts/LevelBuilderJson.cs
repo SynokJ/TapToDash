@@ -19,6 +19,9 @@ public class LevelBuilderJson : MonoBehaviour
     void Start()
     {
         level = levelLoader.curMap.levels[1];
+        if (level == null)
+            Debug.Log("GG");
+
         CreateLevelOnPlayground();
     }
 

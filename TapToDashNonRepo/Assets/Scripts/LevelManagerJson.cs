@@ -1,6 +1,8 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class LevelManagerJson : MonoBehaviour
 {
@@ -19,7 +21,11 @@ public class LevelManagerJson : MonoBehaviour
 
     void Start()
     {
-        InitCurLevel();
+        if (SceneManager.GetActiveScene().name != "CustomLevel")
+            InitCurLevel();
+        else
+            InitCustomLevel();
+
 
         player = pc.getPlayer();
         player.RefreshCurrentCommands(level_first.GetLevel().cmds);
@@ -99,6 +105,20 @@ public class LevelManagerJson : MonoBehaviour
         }
         else if (cur_level == 0 && temp != -1)
             cur_level = temp;
+
+        level_first.SetLevelObject(cur_level);
+        level_second.SetLevelObject(cur_level + 1);
+
+        level_first.CreateLevelOnPlayground();
+        level_second.CreateLevelOnPlayground();
+
+        level_second.MoveLevelMainPointToTheCenter(level_first.gameObject.transform.position);
+    }
+
+
+    private void InitCustomLevel()
+    {
+        cur_level = 1;
 
         level_first.SetLevelObject(cur_level);
         level_second.SetLevelObject(cur_level + 1);

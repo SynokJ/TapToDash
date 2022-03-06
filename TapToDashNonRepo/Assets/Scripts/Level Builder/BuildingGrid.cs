@@ -31,7 +31,7 @@ public class BuildingGrid : MonoBehaviour
             offset_x += 1;
 
         mainCamera = Camera.main;
-        
+
         flyingItem = Instantiate(flyingItem_pref);
 
         InitBackgroundPlane();
@@ -85,6 +85,14 @@ public class BuildingGrid : MonoBehaviour
         }
     }
 
+    public void OnEraseCanvasButtonClicked()
+    {
+        foreach (GameObject platform in GameObject.FindGameObjectsWithTag("Platform"))
+            Destroy(platform.gameObject);
+
+        map = new MapItem[GridSize.x, GridSize.y];
+    }
+
     private void StartPlacingItem(MapItem item)
     {
         if (flyingItem != null)
@@ -134,6 +142,8 @@ public class BuildingGrid : MonoBehaviour
 
             res.Add(line);
         }
+
+        //res.Reverse();
 
         return res;
     }

@@ -25,12 +25,13 @@ public class LevelLoader : MonoBehaviour
 
         StreamReader sr = new StreamReader(Application.persistentDataPath + "/Custom.json");
 
-        Debug.Log(sr.ReadToEnd());
-
         string data = sr.ReadToEnd();
+        Debug.Log(data);
 
         curMap = JsonUtility.FromJson<LevelBox>(data);
-        //curMap.ReverseLevelsMap();
+        curMap.ReverseLevelsMap();
+        Debug.Log("Wanna Cry Because: " + curMap.levels.Length);
+        sr.Close();
     }
 
     private void InitGameLevels()

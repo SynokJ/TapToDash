@@ -7,6 +7,7 @@ TagManager:
   - Move Right
   - Dead
   - Collectible
+  - Platform
   layers:
   - Default
   - TransparentFX
