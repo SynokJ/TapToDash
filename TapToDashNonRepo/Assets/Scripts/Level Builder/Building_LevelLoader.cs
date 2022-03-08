@@ -38,13 +38,15 @@ public class Building_LevelLoader : MonoBehaviour
 
     private void SaveCustomLevel()
     {
+
         levelBox.AddLevel(level);
+
         string data = JsonUtility.ToJson(levelBox);
 
         StreamWriter sw = new StreamWriter(Application.persistentDataPath + "/Custom.json");
         sw.Write(data);
-
         Debug.Log(data);
+
         sw.Close();
     }
 
@@ -64,11 +66,19 @@ public class Building_LevelLoader : MonoBehaviour
 
     private void InitCurLevel()
     {
+        level = new Level();
 
         level.name = "noname";
         level.style = "nostyle";
 
+        if (bg.GetCustomLevel() == null)
+        {
+            Debug.Log("gg");
+            return;
+        }
+
         string[] map = bg.GetCustomLevel().ToArray();
+
 
         level.map = map;
 
@@ -120,7 +130,6 @@ public class Building_LevelLoader : MonoBehaviour
             if (cmds_row.Count == 0)
                 continue;
 
-            // TODO
             if (cmds_row[0] == CmdType.right_02 && cmds_row[cmds_row.Count - 1] == CmdType.left_01)
             {
                 cmds_row.Reverse();
@@ -161,14 +170,6 @@ public class Building_LevelLoader : MonoBehaviour
             level.cmds = new string[] { "run" };
         else
             level.cmds = cmds.ToArray();
-
-        //TestContainer(map);
-
-        //string res = "";
-        //foreach (string cmd in level.cmds)
-        //    res += cmds + " ";
-
-        //Debug.Log(res);
     }
 
     private void IsGap(int r, int c, string[] map, List<CmdType> cmds)

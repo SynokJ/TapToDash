@@ -11,7 +11,15 @@ public class Level
 
     public int GetWidth()
     {
-        return map[0].Length;
+
+        int max = 0;
+
+        foreach (string s in map)
+            if (max < s.Length)
+                max = s.Length;
+
+
+        return max;
     }
 
     public int GetHeight()

@@ -28,7 +28,7 @@ public class LevelBuilderJson : MonoBehaviour
     public void SetLevelObject(int levelIndex)
     {
 
-        if (levelIndex == levelLoader.curMap.levels.Length)
+        if (levelIndex >= levelLoader.curMap.levels.Length)
             levelIndex = 0;
 
         level = levelLoader.curMap.levels[levelIndex];
@@ -43,7 +43,7 @@ public class LevelBuilderJson : MonoBehaviour
         // draw playground platforms
         CreateLevelComponentsOnPlayground(x_offset, y_offset);
         DrawStartLevelPlatform(y_offset);
-        
+
         // first level translate  
         if (transform.position.z == 0)
             transform.Translate(new Vector3(0, 0, y_offset));

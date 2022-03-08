@@ -12,8 +12,6 @@ public class LevelLoader : MonoBehaviour
     void Awake()
     {
 
-        Debug.Log("Scene Name: " + SceneManager.GetActiveScene().name);
-
         if (SceneManager.GetActiveScene().name != "CustomLevel")
             InitGameLevels();
         else
@@ -26,8 +24,7 @@ public class LevelLoader : MonoBehaviour
         StreamReader sr = new StreamReader(Application.persistentDataPath + "/Custom.json");
         
         curMap = JsonUtility.FromJson<LevelBox>(sr.ReadToEnd());
-        curMap.ReverseLevelsMap();
-        Debug.Log("Wanna Cry Because: " + curMap.levels.Length);
+        //curMap.ReverseLevelsMap();
         sr.Close();
     }
 
