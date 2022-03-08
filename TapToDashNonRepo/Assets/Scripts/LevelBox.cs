@@ -13,17 +13,18 @@ public class LevelBox
 
     public void AddLevel(Level other)
     {
+        //if (System.Array.BinarySearch(levels, other) < 0)
+        //    return;
 
         if (levels == null)
-            levels = new Level[] { };
+            levels = new Level[] { new Level() };
+
 
         List<Level> temp = new List<Level>();
 
         foreach (Level level in levels)
             temp.Add(level);
-
-        if (!temp.Contains(other))
-            temp.Add(other);
+        temp.Add(other);
 
         levels = temp.ToArray();
     }
