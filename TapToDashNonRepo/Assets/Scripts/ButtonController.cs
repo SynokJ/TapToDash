@@ -76,4 +76,14 @@ public class ButtonController : MonoBehaviour
 
         SceneManager.LoadScene("CustomLevel");
     }
+
+    public void OnCloseHelpButtonClicked(GameObject helpPanel)
+    {
+        helpPanel.gameObject.SetActive(false);
+    }
+
+    public void OnHelpButtonClicked(GameObject helpPanel)
+    {
+        helpPanel.gameObject.SetActive(true);
+    }
 }
