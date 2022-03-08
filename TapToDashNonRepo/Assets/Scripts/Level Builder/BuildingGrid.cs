@@ -64,7 +64,7 @@ public class BuildingGrid : MonoBehaviour
                 int temp_x = x + Mathf.RoundToInt(offset_x) - flyingItem_pref.Size.x;
                 int temp_y = y + Mathf.RoundToInt(offset_y) - flyingItem_pref.Size.y;
 
-                if (temp_x < 0 || temp_x > GridSize.x - flyingItem.Size.x)
+                if (temp_x < 0 || temp_x > GridSize.x - flyingItem.Size.x - 1)
                     available = false;
 
                 if (temp_y < 0 || temp_y > GridSize.y - flyingItem.Size.y)

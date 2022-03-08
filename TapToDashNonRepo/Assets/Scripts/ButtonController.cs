@@ -41,6 +41,11 @@ public class ButtonController : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
+    public void OnRestarCustomButtonClicked()
+    {
+        SceneManager.LoadScene("CustomLevel");
+    }
+
     public void OnExitButtonClicked()
     {
         PlayerPrefs.Save();
