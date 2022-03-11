@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     private Character character;
     private float max_player_speed = 12f;
 
+    public InterstitialAd adLoader;
     public LevelManagerJson levelManager;
     public AudioSource loseAudio;
     public TextMeshProUGUI score_text;
@@ -96,6 +97,8 @@ public class PlayerController : MonoBehaviour
             gameObject.SetActive(false);
             PlayerPrefs.SetInt("CurLevel", levelManager.GetCurLevel());
             loseAudio.Play();
+
+            adLoader.ShowAd();
         }
         else if (other.tag == "Collectible")
         {
