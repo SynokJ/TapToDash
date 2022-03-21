@@ -13,6 +13,20 @@ public class InterstitialAd : MonoBehaviour, IUnityAdsLoadListener, IUnityAdsSho
         _adUnitId = (Application.platform == RuntimePlatform.IPhonePlayer)
             ? _iOsAdUnitId
             : _androidAdUnitId;
+
+        GetComponent<PlayerController>().OnComplete += OnCompleted;
+    }
+
+    private void OnCompleted(int coin_num)
+    {
+        // TODO
+        coin_num += 10;
+        Debug.Log(coin_num);
+    }
+
+    private void OnError()
+    {
+        // TODO
     }
 
     // Load content to the Ad Unit:

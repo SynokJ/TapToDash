@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using System;
 
 public class PlayerController : MonoBehaviour
 {
@@ -12,8 +13,9 @@ public class PlayerController : MonoBehaviour
     private float cur_player_speed = 0;
     private Character character;
     private float max_player_speed = 12f;
+    private InterstitialAd adLoader;
+    public event Action<int> OnComplete = default;
 
-    public InterstitialAd adLoader;
     public LevelManagerJson levelManager;
     public AudioSource loseAudio;
     public TextMeshProUGUI score_text;
@@ -31,7 +33,7 @@ public class PlayerController : MonoBehaviour
         cur_player_speed = player.GetSpeed();
         gameObject.GetComponent<MeshRenderer>().material = character.material;
 
-        if(character.test_mesh != null)
+        if (character.test_mesh != null)
         {
             gameObject.GetComponent<MeshRenderer>().materials = character.test_material;
             gameObject.GetComponent<MeshFilter>().mesh = character.test_mesh;
@@ -40,6 +42,9 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
+
+        adLoader = GetComponent<InterstitialAd>();
+
         // move 
         transform.Translate(transform.forward * cur_player_speed * Time.deltaTime);
 
@@ -48,7 +53,6 @@ public class PlayerController : MonoBehaviour
             gameWonPanel.SetActive(true);
             gameObject.SetActive(false);
         }
-
 
         // touch system controller 
         if (Input.touchCount != 0)
@@ -99,6 +103,7 @@ public class PlayerController : MonoBehaviour
             loseAudio.Play();
 
             adLoader.ShowAd();
+            OnComplete?.Invoke(score_num);
         }
         else if (other.tag == "Collectible")
         {
@@ -106,11 +111,11 @@ public class PlayerController : MonoBehaviour
             score_text.text = score_num.ToString();
             other.gameObject.SetActive(false);
 
-            setMoney();
+            SetMoney();
         }
     }
 
-    public void setMoney()
+    public void SetMoney()
     {
         PlayerPrefs.SetInt("CoinNumTemp", score_num);
     }
