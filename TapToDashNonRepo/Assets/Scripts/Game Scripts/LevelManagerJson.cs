@@ -15,6 +15,8 @@ public class LevelManagerJson : MonoBehaviour
     public AudioSource levelComplitedSound;
     public BackgroundController bc;
 
+    public bool IsMapAccelerated = false;
+
     private Player player;
     private static int cur_level;
     private bool firstNext = false;
@@ -42,8 +44,9 @@ public class LevelManagerJson : MonoBehaviour
                 cur_level++;
                 firstNext = false;
 
+                SetLevelSpeed();
+                
                 levelComplitedSound.Play();
-                pc.IncreaseSpeed();
             }
             else if (!IsFirstLevelForward() && !firstNext)
             {
@@ -52,13 +55,27 @@ public class LevelManagerJson : MonoBehaviour
                 cur_level++;
                 firstNext = true;
 
+                SetLevelSpeed();
+
                 levelComplitedSound.Play();
-                pc.IncreaseSpeed();
             }
 
         }
 
         SwapCurLevels();
+    }
+
+    private void SetLevelSpeed()
+    {
+        if (IsMapAccelerated)
+            pc.IncreaseSpeed();
+        else
+            pc.DecreaseSpeed();
+    }
+
+    public void SetMapAccelerationStatus(bool status)
+    {
+        IsMapAccelerated = status;
     }
 
     public bool IsFirstLevelForward()

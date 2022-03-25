@@ -7,6 +7,7 @@ public class Map : ScriptableObject
 {
     public Sprite img;
     public AudioClip background_music;
+    public bool IsAccelerated;
 
     public new string name;
 }

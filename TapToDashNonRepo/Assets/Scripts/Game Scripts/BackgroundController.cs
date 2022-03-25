@@ -10,6 +10,7 @@ public class BackgroundController : MonoBehaviour
     public LevelManagerJson lmJson;
 
     public AudioSource music;
+    public LevelManagerJson lmj;
 
     private GameObject background;
     private string last_music_name = "empty";
@@ -34,6 +35,9 @@ public class BackgroundController : MonoBehaviour
                 {
                     music.Play();
                     last_music_name = music.clip.name;
+
+                    lmj.SetMapAccelerationStatus(cur_map.IsAccelerated);
+
                     break;
                 }
             }

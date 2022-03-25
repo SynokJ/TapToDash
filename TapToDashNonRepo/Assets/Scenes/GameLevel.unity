@@ -240,6 +240,7 @@ MonoBehaviour:
   levelLoader: {fileID: 898215441}
   lmJson: {fileID: 1296824793}
   music: {fileID: 1149695988}
+  lmj: {fileID: 1296824793}
 --- !u!1 &101533826
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,51 +362,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 40, y: 0.25, z: 30}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!1 &306406891
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 306406893}
-  - component: {fileID: 306406892}
-  m_Layer: 0
-  m_Name: AdLoader
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 0
---- !u!114 &306406892
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306406891}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4126111ee2cd5a64da39b45f08e59f37, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _androidAdUnitId: TestAdUnit
-  _iOsAdUnitId: Interstitial_iOS
---- !u!4 &306406893
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306406891}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 8
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &347676940
 GameObject:
   m_ObjectHideFlags: 0
@@ -922,6 +878,8 @@ GameObject:
   - component: {fileID: 550221168}
   - component: {fileID: 550221170}
   - component: {fileID: 550221171}
+  - component: {fileID: 550221172}
+  - component: {fileID: 550221173}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -1019,6 +977,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   levelManager: {fileID: 1296824793}
   loseAudio: {fileID: 424170998}
+  coinSound: {fileID: 550221173}
   score_text: {fileID: 347676942}
   gameOverPanel: {fileID: 1482640783}
   gameWonPanel: {fileID: 101533826}
@@ -1076,6 +1035,117 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _androidAdUnitId: TestAdUnit
   _iOsAdUnitId: Interstitial_iOS
+--- !u!114 &550221172
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550221163}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c4005a3402fc79498571c30f9526130, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pc: {fileID: 550221168}
+  inter_ad: {fileID: 550221171}
+  ad_init: {fileID: 0}
+--- !u!82 &550221173
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550221163}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: db86f8709c3ccea458d488cfc93df00e, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &722399345
 GameObject:
   m_ObjectHideFlags: 0
@@ -1654,6 +1724,7 @@ MonoBehaviour:
   levelLoader: {fileID: 898215441}
   levelComplitedSound: {fileID: 1485944825}
   bc: {fileID: 83558456}
+  IsMapAccelerated: 0
 --- !u!1 &1353803238
 GameObject:
   m_ObjectHideFlags: 0

@@ -14,15 +14,17 @@ public class PlayerController : MonoBehaviour
     private Character character;
     private float max_player_speed = 12f;
     private InterstitialAd adLoader;
-    public event Action<int> OnComplete = default;
 
     public LevelManagerJson levelManager;
     public AudioSource loseAudio;
+    public AudioSource coinSound;
+
     public TextMeshProUGUI score_text;
     public GameObject gameOverPanel;
     public GameObject gameWonPanel;
     public List<Character> character_box;
     public Animator anim;
+
 
     void Awake()
     {
@@ -65,9 +67,16 @@ public class PlayerController : MonoBehaviour
 
     public void IncreaseSpeed()
     {
-        if (cur_player_speed < max_player_speed)
+        if ( cur_player_speed < max_player_speed)
             cur_player_speed += 0.5f;
     }
+
+    public void DecreaseSpeed()
+    {
+        if (cur_player_speed > player.GetSpeed())
+            cur_player_speed -= 0.5f;
+    }
+
 
     private void move()
     {
@@ -103,13 +112,14 @@ public class PlayerController : MonoBehaviour
             loseAudio.Play();
 
             adLoader.ShowAd();
-            OnComplete?.Invoke(score_num);
         }
         else if (other.tag == "Collectible")
         {
             score_num++;
             score_text.text = score_num.ToString();
             other.gameObject.SetActive(false);
+
+            coinSound.Play();
 
             SetMoney();
         }
