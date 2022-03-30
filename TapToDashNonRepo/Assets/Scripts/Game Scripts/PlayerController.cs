@@ -116,6 +116,7 @@ public class PlayerController : MonoBehaviour
         else if (other.tag == "Collectible")
         {
             score_num++;
+
             score_text.text = score_num.ToString();
             other.gameObject.SetActive(false);
 
